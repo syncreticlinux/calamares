@@ -60,11 +60,11 @@ def run():
         try:
             os.remove(target_resolv)
         except Error as err:
-             libcalamares.utils.debug("Couldn't remove {}: {}".format(target_resolv, err))
- 
+            libcalamares.utils.debug("Couldn't remove {}: {}".format(target_resolv, err))
+
         try:
             shutil.copy(source_resolv, target_resolv)
         except Error as err:
- +            libcalamares.utils.debug("Can't copy resolv.conf from {}: {}".format(source_resolv, err))
+            libcalamares.utils.debug("Can't copy resolv.conf from {}: {}".format(source_resolv, err))
 
     return None
