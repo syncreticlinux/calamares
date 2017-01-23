@@ -288,9 +288,9 @@ def run():
 
     :return:
     """
-    
+
     fw_type = libcalamares.globalstorage.value("firmwareType")
-    
+
     if libcalamares.globalstorage.value("bootLoader") is None and fw_type != "efi":
         return None
 
