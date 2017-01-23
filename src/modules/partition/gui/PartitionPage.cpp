@@ -57,7 +57,10 @@ PartitionPage::PartitionPage( PartitionCoreModule* core, QWidget* parent )
     , m_ui( new Ui_PartitionPage )
     , m_lastSelectedBootLoaderIndex(-1)
     , m_core( core )
+    , m_isEfi( false )
 {
+    m_isEfi = QDir( "/sys/firmware/efi/efivars" ).exists();
+
     m_ui->setupUi( this );
     m_ui->partitionLabelsView->setVisible(
             Calamares::JobQueue::instance()->globalStorage()->
@@ -100,7 +103,7 @@ PartitionPage::PartitionPage( PartitionCoreModule* core, QWidget* parent )
     connect( m_ui->editButton, &QAbstractButton::clicked, this, &PartitionPage::onEditClicked );
     connect( m_ui->deleteButton, &QAbstractButton::clicked, this, &PartitionPage::onDeleteClicked );
 
-    if ( QDir( "/sys/firmware/efi/efivars" ).exists() ) {
+    if ( m_isEfi ) {
         m_ui->bootLoaderComboBox->hide();
         m_ui->label_3->hide();
     }
@@ -177,7 +180,10 @@ PartitionPage::onCreateClicked()
     Partition* partition = model->partitionForIndex( index );
     Q_ASSERT( partition );
 
-    QPointer<CreatePartitionDialog> dlg = new CreatePartitionDialog( model->device(), partition->parent(), getCurrentUsedMountpoints(), this );
+    QPointer< CreatePartitionDialog > dlg = new CreatePartitionDialog( model->device(),
+                                                                       partition->parent(),
+                                                                       getCurrentUsedMountpoints(),
+                                                                       this );
     dlg->initFromFreeSpace( partition );
     if ( dlg->exec() == QDialog::Accepted )
     {
@@ -269,7 +275,10 @@ PartitionPage::updatePartitionToCreate( Device* device, Partition* partition )
     QStringList mountPoints = getCurrentUsedMountpoints();
     mountPoints.removeOne( PartitionInfo::mountPoint( partition ) );
 
-    QPointer<CreatePartitionDialog> dlg = new CreatePartitionDialog( device, partition->parent(), mountPoints, this );
+    QPointer< CreatePartitionDialog > dlg = new CreatePartitionDialog( device,
+                                                                       partition->parent(),
+                                                                       mountPoints,
+                                                                       this );
     dlg->initFromPartitionToCreate( partition );
     if ( dlg->exec() == QDialog::Accepted )
     {
@@ -295,9 +304,13 @@ PartitionPage::editExistingPartition( Device* device, Partition* partition )
 void
 PartitionPage::updateBootLoaderInstallPath()
 {
+    if ( m_isEfi || !m_ui->bootLoaderComboBox->isVisible() )
+        return;
+
     QVariant var = m_ui->bootLoaderComboBox->currentData( BootLoaderModel::BootLoaderPathRole );
     if ( !var.isValid() )
         return;
+    qDebug() << "PartitionPage::updateBootLoaderInstallPath" << var.toString();
     m_core->setBootLoaderInstallPath( var.toString() );
 }
 
@@ -386,19 +399,19 @@ PartitionPage::updateBootLoaderIndex()
 QStringList
 PartitionPage::getCurrentUsedMountpoints()
 {
-    QModelIndex index = m_core->deviceModel()->index( m_ui->deviceComboBox->currentIndex(), 0 );
+    QModelIndex index = m_core->deviceModel()->index(
+                            m_ui->deviceComboBox->currentIndex(), 0 );
     if ( !index.isValid() )
         return QStringList();
 
     Device* device = m_core->deviceModel()->deviceForIndex( index );
     QStringList mountPoints;
 
-    for (Partition* partition : device->partitionTable()->children()) {
+    for ( Partition* partition : device->partitionTable()->children() )
+    {
         const QString& mountPoint = PartitionInfo::mountPoint( partition );
-
-        if (!mountPoint.isEmpty()) {
+        if ( !mountPoint.isEmpty() )
             mountPoints << mountPoint;
-        }
     }
 
     return mountPoints;
