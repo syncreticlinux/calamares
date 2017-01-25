@@ -193,6 +193,8 @@ UsersPage::addUserClicked() {
             ui->rootPw->setText(dlg->password);
             ui->confirmRootPw->setText(dlg->password);
         }
+
+        ui->labelNoUser->hide();
     }
 
     delete dlg;
@@ -272,7 +274,7 @@ UsersPage::createJobs( const QStringList& defaultGroupsList )
                     m_avatarFilePath.replace("~", home);
             }
 
-            j = new SetAvatarJob( user->avatarFile, m_avatarFilePath );
+            j = new SetAvatarJob( user->avatarFile, m_avatarFilePath, user->username, defaultGroupsList[0] );
             list.append( Calamares::job_ptr(j) );
         }
     }
@@ -292,12 +294,8 @@ UsersPage::onActivate()
 {
     emit checkReady( isReady() );
 
-    // If there is no user yet, open the dialog as soon as the
-    // page is enabled. This makes it easy for people who want
-    // to create one user.
-    if (m_userModel.rowCount() == 0) {
-        addUserClicked();
-    }
+    ui->labelNoUser->setText( QObject::tr( "Please create at least one user." ) );
+    ui->labelNoUser->show();
 }
 
 void
