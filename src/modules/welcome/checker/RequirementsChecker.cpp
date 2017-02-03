@@ -36,9 +36,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QLabel>
-#include <QNetworkConfigurationManager>
-#include <QNetworkConfiguration>
-
+#include <QNetworkAccessManager>
 #include <QProcess>
 #include <QTimer>
 
@@ -339,20 +337,8 @@ RequirementsChecker::checkHasPower()
 bool
 RequirementsChecker::checkHasInternet()
 {
-    // doc from: https://doc.qt.io/qt-5/qnetworkconfigurationmanager.html#isOnline
-    bool hasInternet = false;
-
-    QNetworkConfigurationManager mgr;
-    QList<QNetworkConfiguration> activeConfigs = mgr.allConfigurations(QNetworkConfiguration::Active);
-
-    if (activeConfigs.count() > 0) {
-        Q_ASSERT(mgr.isOnline());
-        hasInternet = mgr.isOnline();
-    }
-    else {
-        Q_ASSERT(!mgr.isOnline());
-    }
-
+    // default to true in the QNetworkAccessManager::UnknownAccessibility case
+    bool hasInternet = QNetworkAccessManager(this).networkAccessible() != QNetworkAccessManager::NotAccessible;
     Calamares::JobQueue::instance()->globalStorage()->insert( "hasInternet", hasInternet );
     return hasInternet;
 }
