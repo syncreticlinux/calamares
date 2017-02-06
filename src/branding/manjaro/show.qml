@@ -17,8 +17,7 @@
  */
 
 /*
- * Change slides width and height from 800x480px to 810x486px to remove side lines
- * Slides images dimensions are 1200x720px.
+ * Slides images dimensions are 800x510px.
  */
 
 import QtQuick 2.0;
@@ -40,7 +39,7 @@ Presentation
         Image {
             id: background1
             source: "slide1.png"
-            width: 810; height: 486
+            width: 800; height: 510
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
@@ -49,7 +48,7 @@ Presentation
             anchors.top: background1.bottom
             text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -59,7 +58,7 @@ Presentation
         Image {
             id: background2
             source: "slide2.png"
-            width: 810; height: 486
+            width: 800; height: 510
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
@@ -68,7 +67,7 @@ Presentation
             anchors.top: background2.bottom
             text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -78,7 +77,7 @@ Presentation
         Image {
             id: background3
             source: "slide3.png"
-            width: 810; height: 486
+            width: 800; height: 510
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
@@ -87,7 +86,7 @@ Presentation
             anchors.top: background3.bottom
             text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -97,7 +96,7 @@ Presentation
         Image {
             id: background4
             source: "slide4.png"
-            width: 810; height: 486
+            width: 800; height: 510
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
@@ -106,7 +105,7 @@ Presentation
             anchors.top: background4.bottom
             text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -116,7 +115,7 @@ Presentation
         Image {
             id: background5
             source: "slide5.png"
-            width: 810; height: 486
+            width: 800; height: 510
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
@@ -125,7 +124,7 @@ Presentation
             anchors.top: background5.bottom
             text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
