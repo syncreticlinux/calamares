@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/modules/partition/gui/AlongsidePage.cpp" line="77"/>
         <source>Choose partition to shrink:</source>
-        <translation>Pilih partisi untuk diciutkan:</translation>
+        <translation>Pilih partisi untuk diiris:</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/AlongsidePage.cpp" line="78"/>
@@ -14,7 +14,7 @@
     <message>
         <location filename="../src/modules/partition/gui/AlongsidePage.cpp" line="121"/>
         <source>With this operation, the partition &lt;strong&gt;%1&lt;/strong&gt; which contains %4 will be shrunk to %2MB and a new %3MB partition will be created for %5.</source>
-        <translation>Dengan operasi ini, partisi &lt;b&gt;%1&lt;/b&gt; yang berisi %4 akan diciutkan menjadi %2MB dan sebuah partisi %3MB baru akan dibuat untuk %5.</translation>
+        <translation>Dengan operasi ini, partisi &lt;b&gt;%1&lt;/b&gt; yang berisi %4 akan disusutkan menjadi %2MB dan sebuah partisi %3MB baru akan dibuat untuk %5.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/AlongsidePage.cpp" line="198"/>
@@ -377,8 +377,8 @@ Pemasang tidak dapat dilanjutkan. &lt;a href=&quot;</translation>
     <message>
         <location filename="../src/modules/welcome/checker/CheckerWidget.cpp" line="113"/>
         <source>This computer does not satisfy some of the recommended requirements for installing %1.&lt;br/&gt;Installation can continue, but some features might be disabled.</source>
-        <translation>Komputer ini tidak memenuhi beberapa syarat yang direkomendasikan untuk memasang %1.
-Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation>
+        <translation>Komputer ini tidak memenuhi beberapa syarat yang dianjurkan untuk memasang %1.
+Pemasangan dapat dilanjutkan, namun beberapa fitur akan dinonfungsikan.</translation>
     </message>
     <message>
         <location filename="../src/modules/welcome/checker/CheckerWidget.cpp" line="142"/>
@@ -490,7 +490,7 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
         <location filename="../src/modules/partition/gui/ChoicePage.cpp" line="1247"/>
         <location filename="../src/modules/partition/gui/ChoicePage.cpp" line="1285"/>
         <source>&lt;strong&gt;Install alongside&lt;/strong&gt;&lt;br/&gt;The installer will shrink a partition to make room for %1.</source>
-        <translation>&lt;strong&gt;Pasang berdampingan dengan&lt;/strong&gt;&lt;br/&gt;Pemasang akan menciutkan sebuah partisi untuk memberi ruang bagi %1.</translation>
+        <translation>&lt;strong&gt;Pasang berdampingan dengan&lt;/strong&gt;&lt;br/&gt;Pemasang akan mengiris sebuah partisi untuk memberi ruang bagi %1.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/ChoicePage.cpp" line="1197"/>
@@ -942,7 +942,7 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="145"/>
         <source>Flags:</source>
-        <translation type="unfinished"/>
+        <translation>Bendera:</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.cpp" line="306"/>
@@ -955,7 +955,7 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/partition/gui/EncryptWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>Formulir</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/EncryptWidget.ui" line="32"/>
@@ -1083,24 +1083,6 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
         <location filename="../src/modules/partition/jobs/FormatPartitionJob.cpp" line="133"/>
         <source>The installer failed to update partition table on disk &apos;%1&apos;.</source>
         <translation>Pemasang gagal memperbarui tabel partisi pada disk &apos;%1&apos;.</translation>
-    </message>
-</context>
-<context>
-    <name>GroupSelectionWidget</name>
-    <message>
-        <location filename="../src/modules/netinstall/widgets/groupselectionwidget.ui" line="20"/>
-        <source>Frame</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/modules/netinstall/widgets/groupselectionwidget.ui" line="29"/>
-        <source>group</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/modules/netinstall/widgets/groupselectionwidget.ui" line="36"/>
-        <source>description</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1352,15 +1334,25 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
 <context>
     <name>NetInstallPage</name>
     <message>
-        <location filename="../src/modules/netinstall/NetInstallPage.cpp" line="101"/>
+        <location filename="../src/modules/netinstall/NetInstallPage.cpp" line="71"/>
+        <source>Name</source>
+        <translation>Nama</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/netinstall/NetInstallPage.cpp" line="72"/>
+        <source>Description</source>
+        <translation>Deskripsi</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/netinstall/NetInstallPage.cpp" line="81"/>
         <source>Network Installation. (Disabled: Unable to fetch package lists, check your network connection)</source>
-        <translation>Pemasangan Jaringan. (Dinonaktifkan: Tak mampu menarik daftar paket, periksa sambungan jaringanmu)</translation>
+        <translation>Pemasangan Jaringan. (Dinonfungsikan: Tak mampu menarik daftar paket, periksa sambungan jaringanmu)</translation>
     </message>
 </context>
 <context>
     <name>NetInstallViewStep</name>
     <message>
-        <location filename="../src/modules/netinstall/NetInstallViewStep.cpp" line="50"/>
+        <location filename="../src/modules/netinstall/NetInstallViewStep.cpp" line="51"/>
         <source>Package selection</source>
         <translation>Pemilihan paket</translation>
     </message>
@@ -1655,12 +1647,12 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/partition/gui/PartitionViewStep.cpp" line="406"/>
         <source>An EFI system partition is necessary to start %1.&lt;br/&gt;&lt;br/&gt;To configure an EFI system partition, go back and select or create a FAT32 filesystem with the &lt;strong&gt;esp&lt;/strong&gt; flag enabled and mount point &lt;strong&gt;%2&lt;/strong&gt;.&lt;br/&gt;&lt;br/&gt;You can continue without setting up an EFI system partition but your system may fail to start.</source>
-        <translation>Sebuah partisi sistem EFI perlu memulai %1.&lt;br/&gt;&lt;br/&gt;Untuk mengkonfigurasi sebuah partisi sistem EFI, pergi mundur dan pilih atau ciptakan sebuah filesystem FAT32 dengan bendera &lt;strong&gt;esp&lt;/strong&gt; teraktifkan dan titik kait &lt;strong&gt;%2&lt;/strong&gt;.&lt;br/&gt;&lt;br/&gt;Kamu bisa melanjutkan tanpa menyetel sebuah partisi sistem EFI tapi sistemmu mungkin gagal memulai.</translation>
+        <translation>Sebuah partisi sistem EFI perlu memulai %1.&lt;br/&gt;&lt;br/&gt;Untuk mengkonfigurasi sebuah partisi sistem EFI, pergi mundur dan pilih atau ciptakan sebuah filesystem FAT32 dengan bendera &lt;strong&gt;esp&lt;/strong&gt; yang difungsikan dan titik kait &lt;strong&gt;%2&lt;/strong&gt;.&lt;br/&gt;&lt;br/&gt;Kamu bisa melanjutkan tanpa menyetel sebuah partisi sistem EFI tapi sistemmu mungkin gagal memulai.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/PartitionViewStep.cpp" line="420"/>
         <source>EFI system partition flag not set</source>
-        <translation type="unfinished"/>
+        <translation>Bendera partisi sistem EFI tidak disetel</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/PartitionViewStep.cpp" line="421"/>
@@ -2005,7 +1997,7 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="84"/>
         <source>Flag %1MB &lt;strong&gt;%2&lt;/strong&gt; partition as &lt;strong&gt;%3&lt;/strong&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Flag partisi &lt;strong&gt;%2&lt;/strong&gt; %1MB sebagai &lt;strong&gt;%3&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="90"/>
@@ -2025,22 +2017,22 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="110"/>
         <source>Clearing flags on new partition.</source>
-        <translation type="unfinished"/>
+        <translation>Membersihkan bendera pada partisi baru.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="114"/>
         <source>Setting flags &lt;strong&gt;%2&lt;/strong&gt; on partition &lt;strong&gt;%1&lt;/strong&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Menyetel bendera &lt;strong&gt;%2&lt;/strong&gt; pada partisi &lt;strong&gt;%1&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="120"/>
         <source>Setting flags &lt;strong&gt;%3&lt;/strong&gt; on %1MB &lt;strong&gt;%2&lt;/strong&gt; partition.</source>
-        <translation type="unfinished"/>
+        <translation>Menyetel bendera &lt;strong&gt;%3&lt;/strong&gt; pada partisi &lt;strong&gt;%2&lt;/strong&gt; %1MB.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="126"/>
         <source>Setting flags &lt;strong&gt;%1&lt;/strong&gt; on new partition.</source>
-        <translation type="unfinished"/>
+        <translation>Menyetel bendera &lt;strong&gt;%1&lt;/strong&gt; pada partisi baru.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="140"/>
@@ -2101,12 +2093,12 @@ Pemasangan dapat dilanjutkan, namun beberapa fitur akan ditiadakan.</translation
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="70"/>
         <source>Cannot disable root account.</source>
-        <translation type="unfinished"/>
+        <translation>Tak bisa menonfungsikan akun root.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="71"/>
         <source>passwd terminated with error code %1.</source>
-        <translation type="unfinished"/>
+        <translation>passwd terhenti dengan kode galat %1.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="87"/>
