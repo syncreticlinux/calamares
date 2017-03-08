@@ -19,16 +19,19 @@
 #include <jobs/SetAvatarJob.h>
 
 #include "GlobalStorage.h"
+#include "utils/CalamaresUtilsSystem.h"
 #include "utils/Logger.h"
 #include "JobQueue.h"
 
 #include <QFile>
 #include <QDir>
 
-SetAvatarJob::SetAvatarJob(const QString &avatarFile, const QString &destPath)
+SetAvatarJob::SetAvatarJob(const QString &avatarFile, const QString &destPath, const QString& owner, const QString& group)
     : Calamares::Job()
     , m_avatarFile(avatarFile)
     , m_destPath(destPath)
+    , m_owner(owner)
+    , m_group(group)
 {
 }
 
@@ -70,15 +73,23 @@ Calamares::JobResult SetAvatarJob::exec()
 
     QString destination( destDir + m_destPath );
     QFile avatarFile( m_avatarFile );
+    QString userGroup( m_owner + ":" + m_group );
 
+    // We do not return errors in case of issues with the avatar, as it is not
+    // critical enough to stop the whole installation.
     if (!avatarFile.exists()) {
         cLog() << "Avatar file does not exist";
-        return Calamares::JobResult::error( tr("Avatar file does not exist") );
     }
-
     if (!avatarFile.copy(destination)) {
-        cLog() << "Error copying:" << avatarFile.errorString();
-        return Calamares::JobResult::error( tr("Error copying") );
+        cLog() << "Error copying avatar:" << avatarFile.errorString();
+    } else {
+        int ec = CalamaresUtils::System::instance()->
+                targetEnvCall({ "chown",
+                                userGroup,
+                                m_destPath });
+        if ( ec ) {
+            cLog() << "Error changing ownership of the avatar file. Exit code: " << ec;
+        }
     }
 
     return Calamares::JobResult::ok();

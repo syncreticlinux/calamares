@@ -4,6 +4,8 @@
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
 #   Copyright 2014, Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+#   Copyright 2015-2017, Teo Mrnjavac <teo@kde.org>
+#   Copyright 2016-2017, Kyle Robbertze <kyle@aims.ac.za>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
 import subprocess
 import libcalamares
 from libcalamares.utils import check_target_env_call, target_env_call
-
+from string import Template
 
 class PackageManager:
     """ Package manager class.
@@ -96,7 +98,7 @@ class PackageManager:
         if self.backend == "packagekit":
             check_target_env_call(["pkcon", "refresh"])
         elif self.backend == "zypp":
-            check_target_env_call(["zypper", "update"])
+            check_target_env_call(["zypper", "--non-interactive", "update"])
         elif self.backend == "urpmi":
             check_target_env_call(["urpmi.update", "-a"])
         elif self.backend == "apt":
@@ -108,6 +110,24 @@ class PackageManager:
         elif self.backend == "entropy":
             check_target_env_call(["equo", "update"])
 
+    def run(self, script):
+        if script != "":
+            check_target_env_call(script.split(" "))
+
+
+def subst_locale(list):
+    ret = []
+    locale = libcalamares.globalstorage.value("locale")
+    if locale:
+        for e in list:
+            if  locale != "en":
+                entry = Template(e)
+                ret.append(entry.safe_substitute(LOCALE=locale))
+            elif 'LOCALE' not in e:
+                ret.append(e)
+    else:
+        ret = list
+    return ret
 
 def run_operations(pkgman, entry):
     """ Call package manager with given parameters.
@@ -116,20 +136,39 @@ def run_operations(pkgman, entry):
     :param entry:
     """
     for key in entry.keys():
+        entry[key] = subst_locale(entry[key])
         if key == "install":
-            pkgman.install(entry[key])
-        elif key == "try_install":
-            try:
+            if isinstance(entry[key], list):
+                for package in entry[key]:
+                    pkgman.run(package["pre-script"])
+                    pkgman.install([package["package"]])
+                    pkgman.run(package["post-script"])
+            else:
                 pkgman.install(entry[key])
-            except subprocess.CalledProcessError:
-                libcalamares.utils.debug("WARNING: could not install packages {}".format(", ".join(entry[key])))
+        elif key == "try_install":
+            # we make a separate package manager call for each package so a single
+            # failing package won't stop all of them
+            for package in entry[key]:
+                if isinstance(package, str):
+                    try:
+                        pkgman.install([package])
+                    except subprocess.CalledProcessError:
+                        libcalamares.utils.debug("WARNING: could not install package {}".format(package))
+                else:
+                    try:
+                        pkgman.run(package["pre-script"])
+                        pkgman.install([package["package"]])
+                        pkgman.run(package["post-script"])
+                    except subprocess.CalledProcessError:
+                        libcalamares.utils.debug("WARNING: could not install packages {}".format(package["package"]))
         elif key == "remove":
             pkgman.remove(entry[key])
         elif key == "try_remove":
-            try:
-                pkgman.remove(entry[key])
-            except subprocess.CalledProcessError:
-                libcalamares.utils.debug("WARNING: could not remove packages {}".format(", ".join(entry[key])))
+            for package in entry[key]:
+                try:
+                    pkgman.remove([package])
+                except subprocess.CalledProcessError:
+                    libcalamares.utils.debug("WARNING: could not remove package {}".format(package))
         elif key == "localInstall":
             pkgman.install(entry[key], from_local=True)
 

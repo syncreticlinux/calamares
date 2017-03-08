@@ -16,6 +16,10 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Slides images dimensions are 800x440px.
+ */
+
 import QtQuick 2.0;
 import calamares.slideshow 1.0;
 
@@ -34,19 +38,17 @@ Presentation
 
         Image {
             id: background1
-            source: "slide.png"
-            width: 500; height: 275
+            source: "slide1.png"
+            width: 800; height: 440
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
         Text {
             anchors.horizontalCenter: background1.horizontalCenter
             anchors.top: background1.bottom
-            text: "Welcome to Manjaro.<br/>"+
-                  "Manjaro is driven by a hardworking and dedicated community.<br/>"+
-                  "During the installation, this slideshow will provide a quick introduction."
+            text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -56,18 +58,16 @@ Presentation
         Image {
             id: background2
             source: "slide2.png"
-            width: 500; height: 275
+            width: 800; height: 440
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
         Text {
             anchors.horizontalCenter: background2.horizontalCenter
             anchors.top: background2.bottom
-            text: "All of Manjaro's versions are completely customizable<br/>"+
-                  "to exactly how you want it. From theming, to the very<br/>"+
-                  "kernel itself, it can be changed."
+            text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -77,18 +77,16 @@ Presentation
         Image {
             id: background3
             source: "slide3.png"
-            width: 500; height: 275
+            width: 800; height: 440
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
         Text {
             anchors.horizontalCenter: background3.horizontalCenter
             anchors.top: background3.bottom
-            text: "Manjaro has three different officially supported editions.<br/>"+
-                  "Additionally, there are a multitude of community editions<br/>"+
-                  "to choose from, built by the community, for the community."
+            text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -98,18 +96,16 @@ Presentation
         Image {
             id: background4
             source: "slide4.png"
-            width: 500; height: 275
+            width: 800; height: 440
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
         Text {
             anchors.horizontalCenter: background4.horizontalCenter
             anchors.top: background4.bottom
-            text: "Manjaro has three different options for managing<br/>"+
-                  "packages. The original command line option, Pacman<br/>"+
-                  "and two different GUI options: Octopi or Pamac."
+            text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
@@ -119,18 +115,16 @@ Presentation
         Image {
             id: background5
             source: "slide5.png"
-            width: 500; height: 275
+            width: 800; height: 440
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
         }
         Text {
             anchors.horizontalCenter: background5.horizontalCenter
             anchors.top: background5.bottom
-            text: "We appreciate you choosing Manjaro, and hope you enjoy<br/>"+
-                  "it as much as we do making it! If you have any questions<br/>"+
-                  "or feedback, please feel free to visit the forum, IRC, or wiki."
+            text: ""
             wrapMode: Text.WordWrap
-            width: 600
+            width: 800
             horizontalAlignment: Text.Center
         }
     }
