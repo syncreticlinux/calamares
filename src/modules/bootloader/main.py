@@ -10,6 +10,7 @@
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
 #   Copyright 2015, Philip Mueller <philm@manjaro.org>
 #   Copyright 2016-2017, Teo Mrnjavac <teo@kde.org>
+#   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -52,7 +53,8 @@ def get_uuid():
 
 
 def get_bootloader_entry_name():
-    """ Passes 'bootloader_entry_name' to other routine based on configuration file.
+    """ Passes 'bootloader_entry_name' to other routine based
+        on configuration file.
 
     :return:
     """
@@ -119,7 +121,8 @@ def create_systemd_boot_conf(uuid, conf_path, kernel_line):
 
     lines = [
         '## This is just an example config file.\n',
-        '## Please edit the paths and kernel parameters according to your system.\n',
+        '## Please edit the paths and kernel parameters according\n',
+        '## to your system.\n',
         '\n',
         "title   {!s}{!s}\n".format(distribution, kernel_line),
         "linux   {!s}\n".format(kernel),
@@ -215,7 +218,8 @@ def install_grub(efi_directory, fw_type):
             # if the kernel is older than 4.0, the UEFI bitness likely isn't
             # exposed to the userspace so we assume a 64 bit UEFI here
             efi_bitness = "64"
-        bitness_translate = {"32": "--target=i386-efi", "64": "--target=x86_64-efi"}
+        bitness_translate = {"32": "--target=i386-efi",
+                             "64": "--target=x86_64-efi"}
         check_target_env_call([libcalamares.job.configuration["grubInstall"],
                                bitness_translate[efi_bitness],
                                "--efi-directory={!s}".format(efi_directory),
@@ -223,20 +227,26 @@ def install_grub(efi_directory, fw_type):
                                "--force"])
 
         # VFAT is weird, see issue CAL-385
-        install_efi_directory_firmware = vfat_correct_case(install_efi_directory, "EFI")
+        install_efi_directory_firmware = \
+            vfat_correct_case(install_efi_directory, "EFI")
         if not os.path.exists(install_efi_directory_firmware):
             os.mkdirs(install_efi_directory_firmware)
 
         # there might be several values for the boot directory
         # most usual they are boot, Boot, BOOT
 
-        install_efi_boot_directory = vfat_correct_case(install_efi_directory_firmware, "boot")
+        install_efi_boot_directory = \
+            vfat_correct_case(install_efi_directory_firmware, "boot")
         if not os.path.exists(install_efi_boot_directory):
             os.mkdirs(install_efi_boot_directory)
 
         # Workaround for some UEFI firmwares
-        efi_file_source = {"32": os.path.join(install_efi_directory_firmware, efi_bootloader_id, "grubia32.efi"),
-                           "64": os.path.join(install_efi_directory_firmware, efi_bootloader_id, "grubx64.efi")}
+        efi_file_source = {"32": os.path.join(install_efi_directory_firmware,
+                                              efi_bootloader_id,
+                                              "grubia32.efi"),
+                           "64": os.path.join(install_efi_directory_firmware,
+                                              efi_bootloader_id,
+                                              "grubx64.efi")}
         shutil.copy2(efi_file_source[efi_bitness], install_efi_boot_directory)
     else:
         print("Bootloader: grub (bios)")
@@ -269,7 +279,8 @@ def vfat_correct_case(parent, name):
 
 def prepare_bootloader(fw_type):
     """ Prepares bootloader.
-    Based on value 'efi_boot_loader', it either calls systemd-boot or grub to be installed.
+    Based on value 'efi_boot_loader', it either calls systemd-boot
+    or grub to be installed.
 
     :param fw_type:
     :return:
@@ -291,7 +302,8 @@ def run():
 
     fw_type = libcalamares.globalstorage.value("firmwareType")
 
-    if libcalamares.globalstorage.value("bootLoader") is None and fw_type != "efi":
+    if libcalamares.globalstorage.value("bootLoader") is None \
+            and fw_type != "efi":
         return None
 
     partitions = libcalamares.globalstorage.value("partitions")
@@ -300,7 +312,8 @@ def run():
         esp_found = False
 
         for partition in partitions:
-            if partition["mountPoint"] == libcalamares.globalstorage.value("efiSystemPartition"):
+            if partition["mountPoint"] == \
+                    libcalamares.globalstorage.value("efiSystemPartition"):
                 esp_found = True
 
         if not esp_found:
