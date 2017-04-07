@@ -24,6 +24,7 @@ import libcalamares
 
 from libcalamares.utils import check_target_env_call, target_env_call, debug
 from os.path import join
+from subprocess import call
 
 class OperationTracker:
     def __init__(self):
@@ -107,9 +108,6 @@ class PacmanController:
     def populate_keyring(self):
         target_env_call(["pacman-key", "--populate"] + self.keyrings)
 
-    def rank_mirrors(self):
-        check_target_env_call(["pacman-mirrors", "-g", "-m", "rank"])
-
     def parse_output(self, cmd):
         cal_env = os.environ
         cal_env["LC_ALL"] = "C"
@@ -167,7 +165,7 @@ class PacmanController:
         cmd = args + pkglist
         check_target_env_call(cmd)
 
-    def run(self, rank=False):
+    def run(self):
         pkgs = []
         for key in self.operations.keys():
             if key == "install":
@@ -194,8 +192,6 @@ class PacmanController:
 
         self.init_keyring()
         self.populate_keyring()
-        if rank:
-            self.rank_mirrors()
 
         return None
 
@@ -203,10 +199,15 @@ class ChrootController:
     def __init__(self):
         self.__root = libcalamares.globalstorage.value('rootMountPoint')
         self.__requirements = libcalamares.job.configuration.get('requirements', [])
+        self.__isRank = libcalamares.job.configuration['isRank']
 
     @property
     def root(self):
         return self.__root
+
+    @property
+    def isRank(self):
+        return self.__isRank
 
     @property
     def requirements(self):
@@ -220,6 +221,9 @@ class ChrootController:
                 mod = int(target["mode"],8)
                 debug("Mode: {}".format(oct(mod)))
                 os.makedirs(dest, mode=mod)
+
+    def rank_mirrors(self):
+        call(["pacman-mirrors", "-f", "5"])
 
     def copy_file(self, file):
         if os.path.exists(os.path.join("/",file)):
@@ -236,10 +240,13 @@ class ChrootController:
         self.copy_file('etc/resolv.conf')
 
     def run(self):
+        if self.isRank:
+            self.rank_mirrors()
+
         self.prepare()
         pacman = PacmanController(self.root)
 
-        return pacman.run(rank=False)
+        return pacman.run()
 
 def run():
     """ Create chroot dirs and install pacman, kernel and netinstall selection """
