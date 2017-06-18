@@ -96,7 +96,7 @@ if ( PYTHONLIBS_FOUND )
         "PythonQt"
         "A Python embedding solution for Qt applications."
         "http://pythonqt.sourceforge.net"
-        FALSE "3.2"
+        FALSE "3.1"
         "PythonQt is used for the Python modules API."
     )
 endif()
