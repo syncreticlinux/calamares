@@ -93,7 +93,7 @@ elseif(PYTHONQT_LIBRARY_V32 AND PYTHONQT_QTALL_LIBRARY_V32)
   set(PYTHONQT_LIB_V32)
 endif()
 
-if(PYTHONQT_INCLUDE_DIR AND (PYTHONQT_LIB OR PYTHONQT_LIB_V32))
+if((PYTHONQT_INCLUDE_DIR AND PYTHONQT_LIB) OR (PYTHONQT_INCLUDE_DIR AND PYTHONQT_LIB_V32))
   # Currently CMake'ified PythonQt only supports building against a python Release build.
   # This applies independently of CTK build type (Release, Debug, ...)
   add_definitions(-DPYTHONQT_USE_RELEASE_PYTHON_FALLBACK)
