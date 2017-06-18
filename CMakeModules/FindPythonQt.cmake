@@ -21,10 +21,10 @@ find_path(PYTHONQT_INCLUDE_DIR PythonQt.h
   PATHS "${PYTHONQT_INSTALL_DIR}/include/PythonQt"
         "${PYTHONQT_INSTALL_DIR}/src"
   DOC "Path to the PythonQt include directory")
-find_library(PYTHONQT_LIBRARY_RELEASE PythonQt PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "The PythonQt library.")
-find_library(PYTHONQT_LIBRARY_DEBUG NAMES PythonQt${CTK_CMAKE_DEBUG_POSTFIX} PythonQt${CMAKE_DEBUG_POSTFIX} PythonQt PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "The PythonQt library.")
-find_library(PYTHONQT_QTALL_LIBRARY_RELEASE PythonQt_QtAll PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "Full Qt bindings for the PythonQt library.")
-find_library(PYTHONQT_QTALL_LIBRARY_DEBUG NAMES PythonQt_QtAll${CTK_CMAKE_DEBUG_POSTFIX} PythonQt_QtAll${CMAKE_DEBUG_POSTFIX} PythonQt_QtAll PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "Full Qt bindings for the PythonQt library.")
+find_library(PYTHONQT_LIBRARY_RELEASE PythonQt-Qt5-Python3 PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "The PythonQt library.")
+find_library(PYTHONQT_LIBRARY_DEBUG NAMES PythonQt-Qt5-Python3${CTK_CMAKE_DEBUG_POSTFIX} PythonQt-Qt5-Python3${CMAKE_DEBUG_POSTFIX} PythonQt-Qt5-Python3 PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "The PythonQt library.")
+find_library(PYTHONQT_QTALL_LIBRARY_RELEASE PythonQt_QtAll-Qt5-Python3 PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "Full Qt bindings for the PythonQt library.")
+find_library(PYTHONQT_QTALL_LIBRARY_DEBUG NAMES PythonQt_QtAll-Qt5-Python3${CTK_CMAKE_DEBUG_POSTFIX} PythonQt_QtAll-Qt5-Python3${CMAKE_DEBUG_POSTFIX} PythonQt_QtAll-Qt5-Python3 PATHS "${PYTHONQT_INSTALL_DIR}/lib" DOC "Full Qt bindings for the PythonQt library.")
 
 set(PYTHONQT_LIBRARY)
 
