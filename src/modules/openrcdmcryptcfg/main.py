@@ -27,7 +27,7 @@ def write_dmcrypt_conf(partitions, root_mount_point, dmcrypt_conf_path):
     crypto_source = ""
 
     for partition in partitions:
-        if partition["mountPoint"] == "/home"
+        if partition["mountPoint"] == "/home" \
                 and "luksMapperName" in partition:
             crypto_target = partition["luksMapperName"]
             crypto_source = "/dev/disk/by-uuid/{!s}".format(partition["uuid"])
