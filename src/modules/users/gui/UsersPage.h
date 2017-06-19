@@ -124,7 +124,7 @@ private:
     // Hostname validation.
     const QRegExp HOSTNAME_RX = QRegExp( "^[a-zA-Z0-9][-a-zA-Z0-9_]*$" );
     const int HOSTNAME_MIN_LENGTH = 2;
-    const int HOSTNAME_MAX_LENGTH = 24;
+    const int HOSTNAME_MAX_LENGTH = 63;
 
     // Are the following fields valid with their current value?
     bool m_readyHostname;
