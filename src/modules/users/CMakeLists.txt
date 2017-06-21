@@ -36,7 +36,7 @@ calamares_add_plugin( users
 if( ECM_FOUND )
     ecm_add_test(
             PasswordTests.cpp
-            SetPasswordJob.cpp
+            jobs/SetPasswordJob.cpp
         TEST_NAME
             passwordtest
         LINK_LIBRARIES
