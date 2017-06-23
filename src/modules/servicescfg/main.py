@@ -81,8 +81,8 @@ class ServicesController:
             if exists(self.root + "/etc/init.d/" + svc["name"]):
                 target_env_call([
                     "rc-update",
-                    action, 
-                    svc["name"], 
+                    action,
+                    svc["name"],
                     svc["runlevel"]
                     ])
 
