@@ -112,8 +112,8 @@ def run():
 
                 if ec != 0:
                     return "Cannot enable systemd service {}".format(dm), \
-                        "systemctl enable call in chroot returned error code " \
-                        "{}".format(ec)
+                        "systemctl enable call in chroot returned error " \
+                        "code {}".format(ec)
                 else:
                     libcalamares.utils.debug(
                         "Cannot enable systemd service {}".format(dm)

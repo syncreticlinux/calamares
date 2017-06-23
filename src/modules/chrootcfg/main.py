@@ -82,7 +82,9 @@ class OperationTracker:
 
         libcalamares.job.setprogress(self.progress)
 
+
 ON_POSIX = 'posix' in sys.builtin_module_names
+
 
 class PacmanController:
     def __init__(self, root):
@@ -146,8 +148,13 @@ class PacmanController:
                     self.tracker.downloaded += 1
                     phase = 1
                     debug("Downloading: {}".format(dl[0]))
-                    debug("Downloaded packages: {}".format(self.tracker.downloaded))
-                    self.tracker.send_progress(self.tracker.downloaded, phase)
+                    debug("Downloaded packages: {}".format(
+                        self.tracker.downloaded
+                        ))
+                    self.tracker.send_progress(
+                        self.tracker.downloaded,
+                        phase
+                        )
 
                 last = dl
             elif inst:
@@ -197,7 +204,7 @@ class PacmanController:
             elif key == "localInstall":
                 for pkg in self.operations[key]:
                     pkgs.extend([pkg["package"]])
-                self.install(pkgs,local=True)
+                self.install(pkgs, local=True)
             elif key == "remove":
                 for pkg in self.operations[key]:
                     pkgs.extend([pkg["package"]])
@@ -244,7 +251,7 @@ class ChrootController:
             dest = self.root + target["name"]
             if not os.path.exists(dest):
                 debug("Create: {}".format(dest))
-                mod = int(target["mode"],8)
+                mod = int(target["mode"], 8)
                 debug("Mode: {}".format(oct(mod)))
                 os.makedirs(dest, mode=mod)
 
@@ -262,7 +269,6 @@ class ChrootController:
         cal_umask = os.umask(0)
         self.make_dirs()
         path = join(self.root, "run")
-        #debug("Fix permissions: {}".format(path))
         os.chmod(path, 0o755)
         os.umask(cal_umask)
         self.copy_file('etc/pacman-mirrors.conf')
@@ -276,6 +282,7 @@ class ChrootController:
         pacman = PacmanController(self.root)
 
         return pacman.run()
+
 
 def run():
     """

@@ -79,7 +79,12 @@ class ServicesController:
     def update(self, action, state):
         for svc in self.services[state]:
             if exists(self.root + "/etc/init.d/" + svc["name"]):
-                target_env_call(["rc-update", action, svc["name"], svc["runlevel"]])
+                target_env_call([
+                    "rc-update",
+                    action, 
+                    svc["name"], 
+                    svc["runlevel"]
+                    ])
 
     def run(self):
         self.configure()
