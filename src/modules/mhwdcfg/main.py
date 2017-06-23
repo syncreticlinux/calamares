@@ -4,6 +4,7 @@
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
 #   Copyright 2016, Artoo <artoo@manjaro.org>
+#   Copyright 2016-2017, Philip Müller <philm@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -24,74 +25,79 @@ from libcalamares.utils import target_env_call, debug
 from os.path import join
 from subprocess import call
 
+
 class MhwdController:
-	def __init__(self):
-		self.__root = libcalamares.globalstorage.value( "rootMountPoint" )
-		self.__bus = libcalamares.job.configuration.get('bus', [])
-		self.__identifier = libcalamares.job.configuration.get('identifier', [])
-		self.__local = libcalamares.job.configuration['local']
-		self.__repo = libcalamares.job.configuration['repo']
-		self._driver = libcalamares.job.configuration['driver']
+    def __init__(self):
+        self.__root = libcalamares.globalstorage.value("rootMountPoint")
+        self.__bus = libcalamares.job.configuration.get('bus', [])
+        self.__identifier = libcalamares.job.configuration.get(
+            'identifier',
+            []
+            )
+        self.__local = libcalamares.job.configuration['local']
+        self.__repo = libcalamares.job.configuration['repo']
+        self._driver = libcalamares.job.configuration['driver']
 
-	@property
-	def driver(self):
-		return self._driver
+    @property
+    def driver(self):
+        return self._driver
 
-	@driver.setter
-	def driver(self, value):
-		self._driver = value
+    @driver.setter
+    def driver(self, value):
+        self._driver = value
 
-	@property
-	def root(self):
-		return self.__root
+    @property
+    def root(self):
+        return self.__root
 
-	@property
-	def local(self):
-		return self.__local
+    @property
+    def local(self):
+        return self.__local
 
-	@property
-	def repo(self):
-		return self.__repo
+    @property
+    def repo(self):
+        return self.__repo
 
-	@property
-	def identifier(self):
-		return self.__identifier
+    @property
+    def identifier(self):
+        return self.__identifier
 
-	@property
-	def bus(self):
-		return self.__bus
+    @property
+    def bus(self):
+        return self.__bus
 
-	def umount(self, mp):
-		call(["umount", "-l", join(self.root, mp)])
+    def umount(self, mp):
+        call(["umount", "-l", join(self.root, mp)])
 
-	def mount(self, mp):
-		call(["mount", "-Br", "/" + mp, join(self.root, mp)])
+    def mount(self, mp):
+        call(["mount", "-Br", "/" + mp, join(self.root, mp)])
 
-	def configure(self, name, id):
-		cmd = ["mhwd", "-a", str(name), str(self.driver), str(id).zfill(4)]
-		if self.local:
-			self.mount("opt")
-			cmd.extend(["--pmconfig", self.repo])
+    def configure(self, name, id):
+        cmd = ["mhwd", "-a", str(name), str(self.driver), str(id).zfill(4)]
+        if self.local:
+            self.mount("opt")
+            cmd.extend(["--pmconfig", self.repo])
 
-		self.mount("etc/resolv.conf")
-		target_env_call(cmd)
+        self.mount("etc/resolv.conf")
+        target_env_call(cmd)
 
-		if self.local:
-			self.umount("opt")
-		self.umount("etc/resolv.conf")
+        if self.local:
+            self.umount("opt")
+        self.umount("etc/resolv.conf")
 
-	def run(self):
-		for b in self.bus:
-			for id in self.identifier['net']:
-					self.configure(b, id)
-			for id in self.identifier['video']:
-					self.configure(b, id)
+    def run(self):
+        for b in self.bus:
+            for id in self.identifier['net']:
+                    self.configure(b, id)
+            for id in self.identifier['video']:
+                    self.configure(b, id)
 
-		return None
+        return None
+
 
 def run():
-	""" Configure the hardware """
+    """ Configure the hardware """
 
-	mhwd = MhwdController()
+    mhwd = MhwdController()
 
-	return mhwd.run()
+    return mhwd.run()
