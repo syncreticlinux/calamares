@@ -4,6 +4,7 @@
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
 #   Copyright 2017, Ghiunhan Mamut <venerix@redcorelinux.org>
+#   Copyright 2017, Philip Müller <philm@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -31,7 +32,7 @@ def write_dmcrypt_conf(partitions, root_mount_point, dmcrypt_conf_path):
                 and "luksMapperName" in partition:
             crypto_target = partition["luksMapperName"]
             crypto_source = "/dev/disk/by-uuid/{!s}".format(partition["uuid"])
-  
+
     if "luksMapperName" not in partition:
             return None
 
