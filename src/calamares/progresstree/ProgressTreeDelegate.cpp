@@ -1,6 +1,7 @@
 /* === This file is part of Calamares - <http://github.com/calamares> ===
  *
  *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
+ *   Copyright 2017, Adriaan de Groot <groot@kde.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -104,7 +105,12 @@ ProgressTreeDelegate::paintViewStep( QPainter* painter,
     {
         painter->setPen( Calamares::Branding::instance()->
                          styleString( Calamares::Branding::SidebarTextSelect ) );
-        painter->setBrush( APP->mainWindow()->palette().background() );
+        QString textHighlight = Calamares::Branding::instance()->
+                           styleString( Calamares::Branding::SidebarTextHighlight );
+        if ( textHighlight.isEmpty() )
+            painter->setBrush( APP->mainWindow()->palette().background() );
+        else
+            painter->setBrush( QColor( textHighlight ) );
     }
 
     painter->fillRect( option.rect, painter->brush().color() );

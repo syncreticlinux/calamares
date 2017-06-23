@@ -435,7 +435,7 @@ LocalePage::onActivate()
 LocaleConfiguration
 LocalePage::guessLocaleConfiguration()
 {
-    QLocale myLocale = QLocale();   // User-selected language
+    QLocale myLocale;   // User-selected language
 
     // If we cannot say anything about available locales
     if ( m_localeGenLines.isEmpty() )

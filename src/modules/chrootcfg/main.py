@@ -4,6 +4,7 @@
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
 #   Copyright 2016, Artoo <artoo@manjaro.org>
+#   Copyright 2017, Philip Müller <philm@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -18,13 +19,17 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
 
-import os, shutil, subprocess, sys, re
-
+import os
+import shutil
+import subprocess
+import sys
+import re
 import libcalamares
 
 from libcalamares.utils import check_target_env_call, target_env_call, debug
 from os.path import join
 from subprocess import call
+
 
 class OperationTracker:
     def __init__(self):
@@ -77,14 +82,21 @@ class OperationTracker:
 
         libcalamares.job.setprogress(self.progress)
 
+
 ON_POSIX = 'posix' in sys.builtin_module_names
+
 
 class PacmanController:
     def __init__(self, root):
         self.__root = root
-        self.__operations = libcalamares.globalstorage.value("packageOperations")
+        self.__operations = libcalamares.globalstorage.value(
+            "packageOperations"
+            )
         self.__tracker = OperationTracker()
-        self.__keyrings = libcalamares.job.configuration.get('keyrings', [])
+        self.__keyrings = libcalamares.job.configuration.get(
+            'keyrings',
+            []
+            )
 
     @property
     def tracker(self):
@@ -114,7 +126,13 @@ class PacmanController:
         last = []
         phase = 0
 
-        process = subprocess.Popen(cmd, env=cal_env, bufsize=1, stdout=subprocess.PIPE, close_fds=ON_POSIX)
+        process = subprocess.Popen(
+            cmd,
+            env=cal_env,
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            close_fds=ON_POSIX
+            )
 
         for line in iter(process.stdout.readline, b''):
             pkgs = re.findall(r'\((\d+)\)', line.decode())
@@ -130,8 +148,13 @@ class PacmanController:
                     self.tracker.downloaded += 1
                     phase = 1
                     debug("Downloading: {}".format(dl[0]))
-                    debug("Downloaded packages: {}".format(self.tracker.downloaded))
-                    self.tracker.send_progress(self.tracker.downloaded, phase)
+                    debug("Downloaded packages: {}".format(
+                        self.tracker.downloaded
+                        ))
+                    self.tracker.send_progress(
+                        self.tracker.downloaded,
+                        phase
+                        )
 
                 last = dl
             elif inst:
@@ -140,7 +163,6 @@ class PacmanController:
                 debug("Installing: {}".format(inst[0]))
                 debug("Installed packages: {}".format(self.tracker.installed))
                 self.tracker.send_progress(self.tracker.installed, phase)
-
 
         if process.returncode != 0:
             return process.kill()
@@ -156,8 +178,15 @@ class PacmanController:
         else:
             args.extend(["-Sy"])
 
-        args.extend(["--cachedir", cachedir, "--root", self.root, "--dbpath", dbdir])
-        cmd =  args + pkglist
+        args.extend([
+            "--cachedir",
+            cachedir,
+            "--root",
+            self.root,
+            "--dbpath",
+            dbdir
+            ])
+        cmd = args + pkglist
         self.parse_output(cmd)
 
     def remove(self, pkglist):
@@ -175,7 +204,7 @@ class PacmanController:
             elif key == "localInstall":
                 for pkg in self.operations[key]:
                     pkgs.extend([pkg["package"]])
-                self.install(pkgs,local=True)
+                self.install(pkgs, local=True)
             elif key == "remove":
                 for pkg in self.operations[key]:
                     pkgs.extend([pkg["package"]])
@@ -195,10 +224,14 @@ class PacmanController:
 
         return None
 
+
 class ChrootController:
     def __init__(self):
         self.__root = libcalamares.globalstorage.value('rootMountPoint')
-        self.__requirements = libcalamares.job.configuration.get('requirements', [])
+        self.__requirements = libcalamares.job.configuration.get(
+            'requirements',
+            []
+            )
         self.__isRank = libcalamares.job.configuration['isRank']
 
     @property
@@ -218,7 +251,7 @@ class ChrootController:
             dest = self.root + target["name"]
             if not os.path.exists(dest):
                 debug("Create: {}".format(dest))
-                mod = int(target["mode"],8)
+                mod = int(target["mode"], 8)
                 debug("Mode: {}".format(oct(mod)))
                 os.makedirs(dest, mode=mod)
 
@@ -226,14 +259,16 @@ class ChrootController:
         call(["pacman-mirrors", "-f", "5"])
 
     def copy_file(self, file):
-        if os.path.exists(os.path.join("/",file)):
-            shutil.copy2(os.path.join("/",file), os.path.join(self.root, file))
+        if os.path.exists(os.path.join("/", file)):
+            shutil.copy2(
+                os.path.join("/", file),
+                os.path.join(self.root, file)
+                )
 
     def prepare(self):
         cal_umask = os.umask(0)
         self.make_dirs()
         path = join(self.root, "run")
-        #debug("Fix permissions: {}".format(path))
         os.chmod(path, 0o755)
         os.umask(cal_umask)
         self.copy_file('etc/pacman-mirrors.conf')
@@ -248,8 +283,12 @@ class ChrootController:
 
         return pacman.run()
 
+
 def run():
-    """ Create chroot dirs and install pacman, kernel and netinstall selection """
+    """
+    Create chroot dirs and install pacman,
+    kernel and netinstall selection
+    """
 
     targetRoot = ChrootController()
 
