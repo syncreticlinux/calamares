@@ -69,7 +69,7 @@ def run():
         if ec != 0:
             if tgt['mandatory']:
                 return ("Cannot enable systemd target {}".format(tgt['name']),
-                        "systemctl enable call in chroot returned error code"
+                        "systemctl enable call in chroot returned error code "
                         "{}".format(ec)
                         )
             else:
@@ -90,7 +90,7 @@ def run():
             if dbl['mandatory']:
                 return ("Cannot disable systemd service"
                         "{}".format(dbl['name']),
-                        "systemctl disable call in chroot returned error code"
+                        "systemctl disable call in chroot returned error code "
                         "{}".format(ec))
             else:
                 libcalamares.utils.debug(
@@ -112,14 +112,14 @@ def run():
 
                 if ec != 0:
                     return "Cannot enable systemd service {}".format(dm), \
-                        "systemctl enable call in chroot returned error code"
+                        "systemctl enable call in chroot returned error code " \
                         "{}".format(ec)
                 else:
                     libcalamares.utils.debug(
                         "Cannot enable systemd service {}".format(dm)
                         )
                     libcalamares.utils.debug(
-                        "systemctl enable call in chroot returned error code"
+                        "systemctl enable call in chroot returned error code "
                         "{}".format(ec)
                         )
 

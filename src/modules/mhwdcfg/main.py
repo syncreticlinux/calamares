@@ -30,7 +30,10 @@ class MhwdController:
     def __init__(self):
         self.__root = libcalamares.globalstorage.value("rootMountPoint")
         self.__bus = libcalamares.job.configuration.get('bus', [])
-        self.__identifier = libcalamares.job.configuration.get('identifier', [])
+        self.__identifier = libcalamares.job.configuration.get(
+            'identifier',
+            []
+            )
         self.__local = libcalamares.job.configuration['local']
         self.__repo = libcalamares.job.configuration['repo']
         self._driver = libcalamares.job.configuration['driver']

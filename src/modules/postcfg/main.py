@@ -86,7 +86,8 @@ class ConfigController:
         self.terminate('gpg-agent')
 
         # Update grub.cfg
-        if exists(join(self.root, "usr/bin/update-grub")) and libcalamares.globalstorage.value("bootLoader") is not None:
+        if exists(join(self.root, "usr/bin/update-grub")) \
+                and libcalamares.globalstorage.value("bootLoader") is not None:
             target_env_call(["update-grub"])
 
         return None
