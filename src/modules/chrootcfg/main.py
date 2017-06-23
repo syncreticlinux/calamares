@@ -186,7 +186,7 @@ class PacmanController:
             "--dbpath",
             dbdir
             ])
-        cmd =  args + pkglist
+        cmd = args + pkglist
         self.parse_output(cmd)
 
     def remove(self, pkglist):
