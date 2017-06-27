@@ -20,7 +20,7 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     set( CMAKE_C_FLAGS_RELEASE          "-O4 -DNDEBUG" )
     set( CMAKE_C_FLAGS_RELWITHDEBINFO   "-O2 -g" )
 
-    set( CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-padded" )
+    set( CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded" )
     set( CMAKE_CXX_FLAGS_DEBUG          "-g" )
     set( CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG" )
     set( CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG" )
@@ -44,11 +44,7 @@ endif()
 
 cmake_policy( SET CMP0023 OLD )
 cmake_policy( SET CMP0028 NEW ) # double colons in KF5::Foo and Qt5::Foo are necessarily IMPORTED or ALIAS targets, don't search further
-
-# Keep cmake 3.0 quiet
-if( POLICY CMP0043 )
-    cmake_policy( SET CMP0043 OLD )
-endif()
+cmake_policy( SET CMP0043 OLD )
 
 include( MacroOptionalFindPackage )
 include( MacroLogFeature )
@@ -63,6 +59,11 @@ option( WITH_PYTHON "Enable Python modules API (requires Boost.Python)." ON )
 option( WITH_CRASHREPORTER "Build with CrashReporter" ON )
 option( INSTALL_CONFIG "Install configuration files" ON)
 option( WITH_PYTHONQT "Enable next generation Python modules API (experimental, requires PythonQt)." OFF )
+option(BUILD_TESTING "Build the testing tree." ON)
+
+if(BUILD_TESTING)
+    enable_testing()
+endif ()
 
 if( CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/libcrashreporter-qt/CMakeLists.txt" )
     message( STATUS "Build of crashreporter disabled." )
