@@ -459,20 +459,20 @@ def run():
             greeter_path = os.path.join(
                 root_mount_point, "usr/share/xgreeters"
                 )
+
             if (os.path.exists(greeter_path)):
                 greeter = os.listdir(greeter_path)[0].split('.')[0]
-                greeter_desktop = os.path.join(
-                    greeter_path,
-                    greeter,
-                    ".desktop"
+                greeter_desktop = (
+                    "{!s}.desktop".format(
+                        os.path.join(greeter_path, greeter)
+                        )                    
                     )
 
                 if (os.path.exists(greeter_desktop)):
                     libcalamares.utils.debug("configure {!s}".format(greeter))
                     os.system(
-                        "sed -i -e "
-                        "\"s/^.*greeter-session=.*/greeter-session={!s}/\" "
-                        "{!s}".format(
+                        "sed -i -e \"s/^.*greeter-session=.*"
+                        "/greeter-session={!s}/\" {!s}".format(
                             greeter,
                             lightdm_conf_path
                             )
