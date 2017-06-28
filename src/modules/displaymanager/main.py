@@ -468,7 +468,8 @@ def run():
                     )
                 if (os.path.exists(greeter_desktop)):
                     libcalamares.utils.debug("configure {!s}".format(greeter))
-                    "sed -i -e \"s/^.*greeter-session=.*/greeter-session={!s}/\" "
+                    "sed -i -e "
+                    "\"s/^.*greeter-session=.*/greeter-session={!s}/\" "
                     "{!s}".format(
                         greeter,
                         lightdm_conf_path
