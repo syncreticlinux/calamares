@@ -266,6 +266,9 @@ def set_autologin(username,
         # Ideally, we should use configparser for the ini conf file,
         # but we just do a simple text replacement for now, as it
         # worksforme(tm)
+        lightdm_conf_path = os.path.join(
+            root_mount_point, "etc/lightdm/lightdm.conf"
+            )
         text = []
 
         if os.path.exists(lightdm_conf_path):
