@@ -465,14 +465,15 @@ def run():
 
                 # configure first found lightdm-greeter
                 for entry in os.scandir(greeter_path):
-                    if entry.name.endswith('.desktop') and not greeter_configured:
+                    if entry.name.endswith('.desktop') \
+                            and not greeter_configured:
                         greeter = entry.name.split('.')[0]
                         libcalamares.utils.debug(
                             "configure {!s}".format(greeter)
                             )
                         os.system(
-                            "sed -i -e \"s/^.*greeter-session=.*/greeter-session="
-                            "{!s}/\" {!s}".format(
+                            "sed -i -e \"s/^.*greeter-session=.*"
+                            "/greeter-session="{!s}/\" {!s}".format(
                                 greeter,
                                 lightdm_conf_path
                                 )
