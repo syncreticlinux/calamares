@@ -466,6 +466,7 @@ def run():
                     greeter,
                     ".desktop"
                     )
+
                 if (os.path.exists(greeter_desktop)):
                     libcalamares.utils.debug("configure {!s}".format(greeter))
                     "sed -i -e "
