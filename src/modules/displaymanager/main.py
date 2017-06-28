@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
-#   Copyright 2014-2016, Philip Müller <philm@manjaro.org>
+#   Copyright 2014-2017, Philip Müller <philm@manjaro.org>
 #   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
@@ -405,7 +405,6 @@ def run():
     # setup lightdm
     if "lightdm" in displaymanagers:
         if have_dm("lightdm", root_mount_point):
-            global lightdm_conf_path
             lightdm_conf_path = os.path.join(
                 root_mount_point, "etc/lightdm/lightdm.conf"
                 )
@@ -460,15 +459,11 @@ def run():
             if (os.path.exists(greeter_path)):
                 greeter = os.listdir(greeter_path)[0].split('.')[0]
                 libcalamares.utils.debug("configure {!s}".format(greeter))
-                with open(lightdm_conf_path, 'r') as lightdm_conf:
-                    text = lightdm_conf.readlines()
-
-                with open(lightdm_conf_path, 'w') as lightdm_conf:
-                    for line in text:
-                        if line.startswith("#greeter-session="):
-                            line = "greeter-session={!s}\n".format(greeter)
-
-                        lightdm_conf.write(line)
+                "sed -i -e \"s/^.*greeter-session=.*/greeter-session={!s}/\" "
+                "{!s}".format(
+                    greeter,
+                    lightdm_conf_path
+                    )
             else:
                 return ("No lightdm greeter installed.")
         else:
