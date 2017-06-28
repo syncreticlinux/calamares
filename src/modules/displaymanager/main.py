@@ -473,7 +473,7 @@ def run():
                             )
                         os.system(
                             "sed -i -e \"s/^.*greeter-session=.*"
-                            "/greeter-session="{!s}/\" {!s}".format(
+                            "/greeter-session={!s}/\" {!s}".format(
                                 greeter,
                                 lightdm_conf_path
                                 )
