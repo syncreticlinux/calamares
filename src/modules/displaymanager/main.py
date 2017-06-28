@@ -459,7 +459,7 @@ def run():
             if (os.path.exists(greeter_path)):
                 greeter = os.listdir(greeter_path)[0].split('.')[0]
                 greeter_desktop = os.path.join(
-                    greeter_path, greeter , ".desktop"
+                    greeter_path, greeter, ".desktop"
                 )
                 if (os.path.exists(greeter_desktop)):
                     libcalamares.utils.debug("configure {!s}".format(greeter))
