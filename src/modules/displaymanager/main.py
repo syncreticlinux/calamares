@@ -473,8 +473,8 @@ def run():
                         greeter,
                         lightdm_conf_path
                         )
-            else:
-                return ("No lightdm greeter installed.")
+                else:
+                    return ("No lightdm greeter installed.")
         else:
             libcalamares.utils.debug("lightdm selected but not installed")
             displaymanagers.remove("lightdm")
