@@ -446,7 +446,8 @@ def run():
 
             if default_desktop_environment is not None:
                 os.system(
-                    "sed -i -e \"s/^.*user-session=.*/user-session={!s}/\" " "{!s}".format(
+                    "sed -i -e \"s/^.*user-session=.*/user-session={!s}/\" "
+                    "{!s}".format(
                         default_desktop_environment.desktop_file,
                         lightdm_conf_path
                         )
