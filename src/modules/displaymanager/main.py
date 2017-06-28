@@ -465,7 +465,7 @@ def run():
                 greeter_desktop = (
                     "{!s}.desktop".format(
                         os.path.join(greeter_path, greeter)
-                        )                    
+                        )
                     )
 
                 if (os.path.exists(greeter_desktop)):
