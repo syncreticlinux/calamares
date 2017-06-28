@@ -458,11 +458,16 @@ def run():
                 )
             if (os.path.exists(greeter_path)):
                 greeter = os.listdir(greeter_path)[0].split('.')[0]
-                libcalamares.utils.debug("configure {!s}".format(greeter))
-                "sed -i -e \"s/^.*greeter-session=.*/greeter-session={!s}/\" "
-                "{!s}".format(
-                    greeter,
-                    lightdm_conf_path
+                greeter_desktop = os.path.join(
+                    greeter_path, greeter , ".desktop"
+                )
+                if (os.path.exists(greeter_desktop)):
+                    libcalamares.utils.debug("configure {!s}".format(greeter))
+                    "sed -i -e \"s/^.*greeter-session=.*/greeter-session={!s}/\" "
+                    "{!s}".format(
+                        greeter,
+                        lightdm_conf_path
+                        )
                     )
             else:
                 return ("No lightdm greeter installed.")
