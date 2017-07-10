@@ -295,7 +295,7 @@ def set_autologin(username,
                     else:
                         lightdm_conf.write(
                             "#autologin-user=\n")
-            except FileNotFOundError:
+            except FileNotFoundError:
                 return (
                     "Cannot write LightDM configuration file",
                     "LightDM config file {!s} does not exist".format(
