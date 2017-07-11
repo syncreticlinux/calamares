@@ -9,12 +9,12 @@
     <message>
         <location filename="../src/modules/partition/gui/BootInfoWidget.cpp" line="75"/>
         <source>This system was started with an &lt;strong&gt;EFI&lt;/strong&gt; boot environment.&lt;br&gt;&lt;br&gt;To configure startup from an EFI environment, this installer must deploy a boot loader application, like &lt;strong&gt;GRUB&lt;/strong&gt; or &lt;strong&gt;systemd-boot&lt;/strong&gt; on an &lt;strong&gt;EFI System Partition&lt;/strong&gt;. This is automatic, unless you choose manual partitioning, in which case you must choose it or create it on your own.</source>
-        <translation>מערכת זו הופעלה בתצורת אתחול &lt;strong&gt;EFI&lt;/strong&gt;.&lt;br&gt;&lt;br&gt; בכדי להגדיר הפעלה מתצורת אתחול EFI, על אשף ההתקנה להתקין מנהל אתחול, לדוגמה &lt;strong&gt;GRUB&lt;/strong&gt; או &lt;strong&gt;systemd-boot&lt;/strong&gt; על &lt;strong&gt;מחיצת מערכת EFI&lt;/strong&gt;. פעולה זו היא אוטומטית, אלא אם כן תבחר להגדיר מחיצות באופן ידני, במקרה זה עליך לבחור זאת או להגדיר בעצמך.</translation>
+        <translation>מערכת זו הופעלה בתצורת אתחול &lt;strong&gt;EFI&lt;/strong&gt;.&lt;br&gt;&lt;br&gt; בכדי להגדיר הפעלה מתצורת אתחול EFI, על אשף ההתקנה להתקין מנהל אתחול מערכת, לדוגמה &lt;strong&gt;GRUB&lt;/strong&gt; או &lt;strong&gt;systemd-boot&lt;/strong&gt; על &lt;strong&gt;מחיצת מערכת EFI&lt;/strong&gt;. פעולה זו היא אוטומטית, אלא אם כן תבחר להגדיר מחיצות באופן ידני, במקרה זה עליך לבחור זאת או להגדיר בעצמך.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/BootInfoWidget.cpp" line="87"/>
         <source>This system was started with a &lt;strong&gt;BIOS&lt;/strong&gt; boot environment.&lt;br&gt;&lt;br&gt;To configure startup from a BIOS environment, this installer must install a boot loader, like &lt;strong&gt;GRUB&lt;/strong&gt;, either at the beginning of a partition or on the &lt;strong&gt;Master Boot Record&lt;/strong&gt; near the beginning of the partition table (preferred). This is automatic, unless you choose manual partitioning, in which case you must set it up on your own.</source>
-        <translation>מערכת זו הופעלה בתצורת אתחול &lt;strong&gt;BIOS&lt;/strong&gt;.&lt;br&gt;&lt;br&gt; בכדי להגדיר הפעלה מתצורת אתחול BIOS, על אשף ההתקנה להתקין מנהל אתחול, לדוגמה &lt;strong&gt;GRUB&lt;/strong&gt;, בתחלית מחיצה או על ה &lt;strong&gt;Master Boot Record&lt;/strong&gt; בצמוד להתחלה של טבלת המחיצות (מועדף). פעולה זו היא אוטומטית, אלא אם כן תבחר להגדיר מחיצות באופן ידני, במקרה זה עליך להגדיר זאת בעצמך.</translation>
+        <translation>מערכת זו הופעלה בתצורת אתחול &lt;strong&gt;BIOS&lt;/strong&gt;.&lt;br&gt;&lt;br&gt; בכדי להגדיר הפעלה מתצורת אתחול BIOS, על אשף ההתקנה להתקין מנהל אתחול מערכת, לדוגמה &lt;strong&gt;GRUB&lt;/strong&gt;, בתחלית מחיצה או על ה &lt;strong&gt;Master Boot Record&lt;/strong&gt; בצמוד להתחלה של טבלת המחיצות (מועדף). פעולה זו היא אוטומטית, אלא אם כן תבחר להגדיר מחיצות באופן ידני, במקרה זה עליך להגדיר זאת בעצמך.</translation>
     </message>
 </context>
 <context>
@@ -37,7 +37,7 @@
     <message>
         <location filename="../src/modules/partition/core/BootLoaderModel.cpp" line="111"/>
         <source>Do not install a boot loader</source>
-        <translation>אל תתקין מנהל אתחול, boot loader</translation>
+        <translation>אל תתקין מנהל אתחול מערכת, boot loader</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/core/BootLoaderModel.cpp" line="125"/>
@@ -159,28 +159,28 @@ Output:
     <message>
         <location filename="../src/libcalamares/ProcessJob.cpp" line="104"/>
         <source>External command failed to finish</source>
-        <translation>פקודה חיצונית כשלה בעת סוף הרצת הפקודה</translation>
+        <translation>הרצת פקודה חיצונית לא הצליחה להסתיים</translation>
     </message>
     <message>
         <location filename="../src/libcalamares/ProcessJob.cpp" line="105"/>
         <source>Command %1 failed to finish in %2s.
 Output:
 %3</source>
-        <translation>פקודה %1 נכשלה לקראת סיומה ב %2 שניות.
+        <translation>פקודה %1 לא הצליחה להסתיים ב %2 שניות.
 פלט:
 %3</translation>
     </message>
     <message>
         <location filename="../src/libcalamares/ProcessJob.cpp" line="111"/>
         <source>External command finished with errors</source>
-        <translation>פעולת פקודה חיצונית הסתיימה עם שגיאות</translation>
+        <translation>פקודה חיצונית הסתיימה עם שגיאות</translation>
     </message>
     <message>
         <location filename="../src/libcalamares/ProcessJob.cpp" line="112"/>
         <source>Command %1 finished with exit code %2.
 Output:
 %3</source>
-        <translation>פעולת פקודה %1 הסתיימה עם קוד יציאה %2.
+        <translation>פקודה %1 הסתיימה עם קוד יציאה %2.
 פלט:
 %3</translation>
     </message>
@@ -188,32 +188,32 @@ Output:
 <context>
     <name>Calamares::PythonJob</name>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="250"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="252"/>
         <source>Running %1 operation.</source>
         <translation>מריץ פעולה %1.</translation>
     </message>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="263"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="267"/>
         <source>Bad working directory path</source>
         <translation>נתיב תיקיית עבודה לא תקין</translation>
     </message>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="264"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="268"/>
         <source>Working directory %1 for python job %2 is not readable.</source>
         <translation>תיקיית עבודה %1 עבור משימת python %2 לא קריאה.</translation>
     </message>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="274"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="278"/>
         <source>Bad main script file</source>
         <translation>קובץ תסריט הרצה ראשי לא תקין</translation>
     </message>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="275"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="279"/>
         <source>Main script file %1 for python job %2 is not readable.</source>
         <translation>קובץ תסריט הרצה ראשי %1 עבור משימת python %2 לא קריא. </translation>
     </message>
     <message>
-        <location filename="../src/libcalamares/PythonJob.cpp" line="320"/>
+        <location filename="../src/libcalamares/PythonJob.cpp" line="335"/>
         <source>Boost.Python error in job &quot;%1&quot;.</source>
         <translation>שגיאת Boost.Python במשימה &quot;%1&quot;.</translation>
     </message>
@@ -252,7 +252,7 @@ Output:
         <source>Do you really want to cancel the current install process?
 The installer will quit and all changes will be lost.</source>
         <translation>האם אתה בטוח שברצונך לבטל את תהליך ההתקנה?
-אשף ההתקנה ייסגר וכלל השינויים יאבדו.</translation>
+אשף ההתקנה ייסגר וכל השינויים יאבדו.</translation>
     </message>
     <message>
         <location filename="../src/libcalamaresui/ViewManager.cpp" line="105"/>
@@ -325,7 +325,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/libcalamares/PythonHelper.cpp" line="292"/>
         <source>unparseable Python traceback</source>
-        <translation>עקבה לאחור של Python לא ניתנת לנתוח</translation>
+        <translation>עקבה לאחור של Python לא ניתנת לניתוח</translation>
     </message>
     <message>
         <location filename="../src/libcalamares/PythonHelper.cpp" line="296"/>
@@ -407,7 +407,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/partition/gui/ChoicePage.cpp" line="972"/>
         <source>Boot loader location:</source>
-        <translation>מיקום מנהל האיתחול:</translation>
+        <translation>מיקום מנהל אתחול המערכת:</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/ChoicePage.cpp" line="916"/>
@@ -551,6 +551,11 @@ The installer will quit and all changes will be lost.</source>
         <translation>ייצר מחיצה</translation>
     </message>
     <message>
+        <location filename="../src/modules/partition/gui/CreatePartitionDialog.ui" line="48"/>
+        <source> MiB</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/modules/partition/gui/CreatePartitionDialog.ui" line="55"/>
         <source>Partition &amp;Type:</source>
         <translation>מחיצה &amp;מסוג:</translation>
@@ -584,11 +589,6 @@ The installer will quit and all changes will be lost.</source>
         <location filename="../src/modules/partition/gui/CreatePartitionDialog.ui" line="38"/>
         <source>Si&amp;ze:</source>
         <translation>גו&amp;דל:</translation>
-    </message>
-    <message>
-        <location filename="../src/modules/partition/gui/CreatePartitionDialog.ui" line="48"/>
-        <source> MB</source>
-        <translation>מגה בייט</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/CreatePartitionDialog.cpp" line="65"/>
@@ -926,12 +926,17 @@ The installer will quit and all changes will be lost.</source>
         <translation>גו&amp;דל:</translation>
     </message>
     <message>
-        <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="132"/>
+        <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="129"/>
+        <source> MiB</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="136"/>
         <source>Fi&amp;le System:</source>
         <translation>מ&amp;ערכת קבצים:</translation>
     </message>
     <message>
-        <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="145"/>
+        <location filename="../src/modules/partition/gui/EditExistingPartitionDialog.ui" line="149"/>
         <source>Flags:</source>
         <translation>סימונים:</translation>
     </message>
@@ -999,7 +1004,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/partition/jobs/FillGlobalStorageJob.cpp" line="176"/>
         <source>Install boot loader on &lt;strong&gt;%1&lt;/strong&gt;.</source>
-        <translation>התקן מנהל אתחול על &lt;strong&gt;%1&lt;/strong&gt;.</translation>
+        <translation>התקן מנהל אתחול מערכת על &lt;strong&gt;%1&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/FillGlobalStorageJob.cpp" line="186"/>
@@ -1558,7 +1563,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/partition/gui/PartitionPage.ui" line="148"/>
         <source>Install boot &amp;loader on:</source>
-        <translation>התקן &amp;מנהל אתחול על:</translation>
+        <translation>התקן &amp;מנהל אתחול מערכת על:</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/gui/PartitionPage.cpp" line="160"/>
@@ -1901,17 +1906,17 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="37"/>
         <source>Set hostname %1</source>
-        <translation>הגדר שם המחשב %1</translation>
+        <translation>הגדר שם עמדה %1</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="44"/>
         <source>Set hostname &lt;strong&gt;%1&lt;/strong&gt;.</source>
-        <translation>הגדר שם המחשב &lt;strong&gt;%1&lt;/strong&gt;.</translation>
+        <translation>הגדר שם עמדה &lt;strong&gt;%1&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="51"/>
         <source>Setting hostname %1.</source>
-        <translation>מגדיר את שם המחשב %1.</translation>
+        <translation>מגדיר את שם העמדה %1.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="61"/>
@@ -1923,7 +1928,7 @@ The installer will quit and all changes will be lost.</source>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="75"/>
         <location filename="../src/modules/users/SetHostNameJob.cpp" line="86"/>
         <source>Cannot write hostname to target system</source>
-        <translation>נכשלה כתיבת שם המחשב למערכת המטרה.</translation>
+        <translation>נכשלה כתיבת שם העמדה למערכת המטרה.</translation>
     </message>
 </context>
 <context>
@@ -1936,7 +1941,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/keyboard/SetKeyboardLayoutJob.cpp" line="320"/>
         <source>Failed to write keyboard configuration for the virtual console.</source>
-        <translation>נכשלה כתיבת הגדרת מקלדת למסוף.</translation>
+        <translation>נכשלה כתיבת הגדרת מקלדת למסוף הוירטואלי.</translation>
     </message>
     <message>
         <location filename="../src/modules/keyboard/SetKeyboardLayoutJob.cpp" line="321"/>
@@ -2036,7 +2041,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="140"/>
         <source>The installer failed to set flags on partition %1.</source>
-        <translation>תהליך ההתקנה נכשל בעת סימון דגלים במחיצה %1.</translation>
+        <translation>תהליך ההתקנה נכשל בעת הצבת סימונים במחיצה %1.</translation>
     </message>
     <message>
         <location filename="../src/modules/partition/jobs/SetPartitionFlagsJob.cpp" line="148"/>
@@ -2082,12 +2087,12 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="108"/>
         <source>Bad destination system path.</source>
-        <translation>יעד נתיב מערכת לא תקין.</translation>
+        <translation>יעד נתיב המערכת לא תקין.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="109"/>
         <source>rootMountPoint is %1</source>
-        <translation>עיגון מחיצת מערכת ההפעלה היא %1</translation>
+        <translation>עיגון מחיצת מערכת ההפעלה, rootMountPoint, היא %1</translation>
     </message>
     <message>
         <location filename="../src/modules/users/SetPasswordJob.cpp" line="119"/>
@@ -2153,7 +2158,7 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/summary/SummaryPage.cpp" line="46"/>
         <source>This is an overview of what will happen once you start the install procedure.</source>
-        <translation>להלן סקירה של מה שיתרחש לאחר שיתחיל תהליך ההתקנה.</translation>
+        <translation>להלן סקירת המאורעות שיתרחשו עם תחילת תהליך ההתקנה.</translation>
     </message>
 </context>
 <context>
@@ -2174,22 +2179,22 @@ The installer will quit and all changes will be lost.</source>
     <message>
         <location filename="../src/modules/users/UsersPage.cpp" line="285"/>
         <source>Your username contains invalid characters. Only lowercase letters and numbers are allowed.</source>
-        <translation>שם המחשב מכיל ערכים לא תקינים. אך ורק אותיות לא רישיות ומספרים מורשים.</translation>
+        <translation>שם העמדה מכיל ערכים לא תקינים. ניתן להשתמש אך ורק באותיות קטנות ומספרים.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/UsersPage.cpp" line="329"/>
         <source>Your hostname is too short.</source>
-        <translation>שם המחשב קצר מדי.</translation>
+        <translation>שם העמדה קצר מדי.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/UsersPage.cpp" line="340"/>
         <source>Your hostname is too long.</source>
-        <translation>שם המחשב ארוך מדי.</translation>
+        <translation>שם העמדה ארוך מדי.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/UsersPage.cpp" line="351"/>
         <source>Your hostname contains invalid characters. Only letters, numbers and dashes are allowed.</source>
-        <translation>שם המחשב מכיל ערכים לא תקינים. אך ורק אותיות, מספרים ומקפים מורשים.</translation>
+        <translation>שם העמדה מכיל ערכים לא תקינים. אך ורק אותיות, מספרים ומקפים מורשים.</translation>
     </message>
     <message>
         <location filename="../src/modules/users/UsersPage.cpp" line="382"/>
