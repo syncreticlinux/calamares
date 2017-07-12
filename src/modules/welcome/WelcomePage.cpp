@@ -95,6 +95,9 @@ WelcomePage::WelcomePage( RequirementsChecker* requirementsChecker, QWidget* par
                                                          CalamaresUtils::Original,
                                                          QSize( CalamaresUtils::defaultFontHeight() * 6,
                                                                 CalamaresUtils::defaultFontHeight() * 6 ) ) );
+        QGridLayout* layout = reinterpret_cast<QGridLayout *>( mb.layout() );
+        if ( layout )
+            layout->setColumnMinimumWidth( 2, CalamaresUtils::defaultFontHeight() * 24 );
         mb.exec();
     } );
 
