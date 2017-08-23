@@ -492,7 +492,7 @@ def run():
                             and not greeter_configured:
                         greeter = entry.name.split('.')[0]
                         libcalamares.utils.debug(
-                            "configure {!s}".format(greeter)
+                            "found greeter {!s}".format(greeter)
                             )
                         os.system(
                             "sed -i -e \"s/^.*greeter-session=.*"
@@ -502,7 +502,7 @@ def run():
                                 )
                             )
                         libcalamares.utils.debug(
-                            "{!s} as greeter configured.".format(greeter)
+                            "{!s} configured as greeter.".format(greeter)
                             )
                         greeter_configured = True
 

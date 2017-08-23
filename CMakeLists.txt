@@ -1,11 +1,21 @@
+### CMakeLists.txt for Calamares
+#
+# Generally, this CMakeLists.txt will find all the dependencies for Calamares
+# and complain appropriately. See below (later in this file) for CMake-level
+# options. There are some "secret" options as well:
+#
+#   SKIP_MODULES    : a space or semicolon-separated list of directory names
+#                     under src/modules that should not be built.
+#
+# Example usage:
+#
+#   cmake . -DSKIP_MODULES="partition luksbootkeycfg"
+
 project( calamares CXX )
 
-# The partition manager uses ECM but ECMConfig.cmake
-# will complain if we require CMake less than 2.8.13,
-# so never change this.
 cmake_minimum_required( VERSION 3.2 )
 
-set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules" )
+set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules" )
 
 set( CMAKE_CXX_STANDARD 14 )
 set( CMAKE_CXX_STANDARD_REQUIRED ON )
@@ -20,7 +30,7 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     set( CMAKE_C_FLAGS_RELEASE          "-O4 -DNDEBUG" )
     set( CMAKE_C_FLAGS_RELWITHDEBINFO   "-O2 -g" )
 
-    set( CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-padded" )
+    set( CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded" )
     set( CMAKE_CXX_FLAGS_DEBUG          "-g" )
     set( CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG" )
     set( CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG" )
@@ -44,11 +54,7 @@ endif()
 
 cmake_policy( SET CMP0023 OLD )
 cmake_policy( SET CMP0028 NEW ) # double colons in KF5::Foo and Qt5::Foo are necessarily IMPORTED or ALIAS targets, don't search further
-
-# Keep cmake 3.0 quiet
-if( POLICY CMP0043 )
-    cmake_policy( SET CMP0043 OLD )
-endif()
+cmake_policy( SET CMP0043 OLD )
 
 include( MacroOptionalFindPackage )
 include( MacroLogFeature )
@@ -61,8 +67,13 @@ find_package( PolkitQt5-1 REQUIRED )
 
 option( WITH_PYTHON "Enable Python modules API (requires Boost.Python)." ON )
 option( WITH_CRASHREPORTER "Build with CrashReporter" ON )
-option( INSTALL_CONFIG "Install configuration files" ON)
+option( INSTALL_CONFIG "Install configuration files" ON )
 option( WITH_PYTHONQT "Enable next generation Python modules API (experimental, requires PythonQt)." OFF )
+option( BUILD_TESTING "Build the testing tree." ON )
+
+if( BUILD_TESTING )
+    enable_testing()
+endif ()
 
 if( CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/libcrashreporter-qt/CMakeLists.txt" )
     message( STATUS "Build of crashreporter disabled." )
@@ -101,10 +112,10 @@ if ( PYTHONLIBS_FOUND )
     )
 endif()
 
-if ( PYTHONLIBS_NOTFOUND OR NOT CALAMARES_BOOST_PYTHON3_FOUND )
+if( PYTHONLIBS_NOTFOUND OR NOT CALAMARES_BOOST_PYTHON3_FOUND )
     set( WITH_PYTHON OFF )
 endif()
-if ( PYTHONLIBS_NOTFOUND OR NOT PYTHONQT_FOUND )
+if( PYTHONLIBS_NOTFOUND OR NOT PYTHONQT_FOUND )
     set( WITH_PYTHONQT OFF )
 endif()
 
@@ -115,7 +126,7 @@ set( CALAMARES_ORGANIZATION_NAME "Calamares" )
 set( CALAMARES_ORGANIZATION_DOMAIN "github.com/calamares" )
 set( CALAMARES_APPLICATION_NAME  "Calamares" )
 set( CALAMARES_DESCRIPTION_SUMMARY "The distribution-independent installer framework" )
-set( CALAMARES_TRANSLATION_LANGUAGES ar ast bg ca cs_CZ da de el en en_GB es_MX es eu fr hr hu id is it_IT ja lt nl pl pt_BR pt_PT ro ru sk sv th tr_TR zh_CN zh_TW )
+set( CALAMARES_TRANSLATION_LANGUAGES ar ast bg ca cs_CZ da de el en en_GB es_MX es eu fr he hr hu id is it_IT ja lt nl pl pt_BR pt_PT ro ru sk sv th tr_TR zh_CN zh_TW )
 
 ### Bump version here
 set( CALAMARES_VERSION_MAJOR 3 )
@@ -169,12 +180,7 @@ configure_file(
 )
 
 # Early configure these files as we need them later on
-configure_file( CalamaresUse.cmake.in "${PROJECT_BINARY_DIR}/CalamaresUse.cmake" @ONLY )
-file( COPY CalamaresAddLibrary.cmake DESTINATION "${PROJECT_BINARY_DIR}" )
-file( COPY CalamaresAddModuleSubdirectory.cmake DESTINATION "${PROJECT_BINARY_DIR}" )
-file( COPY CalamaresAddPlugin.cmake DESTINATION "${PROJECT_BINARY_DIR}" )
-file( COPY CalamaresAddBrandingSubdirectory.cmake DESTINATION "${PROJECT_BINARY_DIR}" )
-
+set( CALAMARES_CMAKE_DIR "${CMAKE_SOURCE_DIR}/CMakeModules" )
 set( CALAMARES_LIBRARIES calamares )
 
 set( THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/thirdparty" )
@@ -184,15 +190,15 @@ add_subdirectory( src )
 
 macro_display_feature_log()
 
-if ( NOT WITH_PYTHON )
+if( NOT WITH_PYTHON )
     message( "-- WARNING: Building Calamares without Python support. Legacy Python job modules will not work.\n" )
 endif()
-if ( NOT WITH_PYTHONQT )
+if( NOT WITH_PYTHONQT )
     message( "-- WARNING: Building Calamares without PythonQt support. Python modules will not work.\n" )
 endif()
 
 
-if ( NOT INSTALL_CONFIG )
+if( NOT INSTALL_CONFIG )
     message( "-- WARNING: Configuration files will not be installed.\n" )
 endif()
 
@@ -220,11 +226,10 @@ install(
     FILES
         "${PROJECT_BINARY_DIR}/CalamaresConfig.cmake"
         "${PROJECT_BINARY_DIR}/CalamaresConfigVersion.cmake"
-        "${PROJECT_BINARY_DIR}/CalamaresUse.cmake"
-        "${PROJECT_BINARY_DIR}/CalamaresAddPlugin.cmake"
-        "${PROJECT_BINARY_DIR}/CalamaresAddModuleSubdirectory.cmake"
-        "${PROJECT_BINARY_DIR}/CalamaresAddLibrary.cmake"
-        "${PROJECT_BINARY_DIR}/CalamaresAddBrandingSubdirectory.cmake"
+        "CMakeModules/CalamaresAddPlugin.cmake"
+        "CMakeModules/CalamaresAddModuleSubdirectory.cmake"
+        "CMakeModules/CalamaresAddLibrary.cmake"
+        "CMakeModules/CalamaresAddBrandingSubdirectory.cmake"
     DESTINATION
         "${CMAKE_INSTALL_CMAKEDIR}"
 )
@@ -237,7 +242,7 @@ install(
         "${CMAKE_INSTALL_CMAKEDIR}"
 )
 
-if (INSTALL_CONFIG)
+if( INSTALL_CONFIG )
     install(
         FILES
             settings.conf
