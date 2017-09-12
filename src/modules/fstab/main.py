@@ -6,6 +6,7 @@
 #   Copyright 2014, Aurélien Gâteau <agateau@kde.org>
 #   Copyright 2016, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
+#   Copyright 2017, Philip Müller <philm@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -184,7 +185,7 @@ class FstabGenerator(object):
             for partition in self.partitions:
                 # Special treatment for a btrfs root with @ and @home
                 # subvolumes
-                if (partition["fs"] == "btrfs"
+                if (partition["fs"].lower() == "btrfs"
                    and partition["mountPoint"] == "/"):
                     output = subprocess.check_output(['btrfs',
                                                       'subvolume',
