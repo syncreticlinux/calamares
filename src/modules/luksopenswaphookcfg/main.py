@@ -5,6 +5,7 @@
 #
 #   Copyright 2016, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
+#   Copyright 2017, Philip Mueller <philm@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@ def write_openswap_conf(partitions, root_mount_point, openswap_conf_path):
     mountable_keyfile_device = ""
 
     for partition in partitions:
-        if partition["fs"] == "linuxswap" and "luksMapperName" in partition:
+        if partition["fs"].lower() == "linuxswap" and "luksMapperName" in partition:
             swap_outer_uuid = partition["luksUuid"]
             swap_mapper_name = partition["luksMapperName"]
 
