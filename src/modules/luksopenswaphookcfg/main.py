@@ -30,7 +30,7 @@ def write_openswap_conf(partitions, root_mount_point, openswap_conf_path):
     mountable_keyfile_device = ""
 
     for partition in partitions:
-        if partition["fs"].lower().lstrip("-") == "linuxswap" and "luksMapperName" in partition:
+        if partition["fs"].lower().strip("-") == "linuxswap" and "luksMapperName" in partition:
             swap_outer_uuid = partition["luksUuid"]
             swap_mapper_name = partition["luksMapperName"]
 
