@@ -8,7 +8,7 @@
 #   Copyright 2014, Daniel Hillenbrand <codeworkx@bbqlinux.org>
 #   Copyright 2014, Benjamin Vaudour <benjamin.vaudour@yahoo.fr>
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
-#   Copyright 2015, Philip Mueller <philm@manjaro.org>
+#   Copyright 2015-2017, Philip Mueller <philm@manjaro.org>
 #   Copyright 2016-2017, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #   Copyright 2017, Adriaan de Groot <groot@kde.org>
@@ -111,7 +111,7 @@ def create_systemd_boot_conf(uuid, conf_path, kernel_line):
     #  - encrypted root sets cryptdevice_params
     for partition in partitions:
         has_luks = "luksMapperName" in partition
-        if partition["fs"] == "linuxswap" and not has_luks:
+        if partition["fs"].lower() == "linuxswap" and not has_luks:
             swap_uuid = partition["uuid"]
 
         if partition["mountPoint"] == "/" and has_luks:
