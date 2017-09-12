@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
-#   Copyright 2014-2015, Philip Müller <philm@manjaro.org>
+#   Copyright 2014-2017, Philip Müller <philm@manjaro.org>
 #   Copyright 2015-2017, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #   Copyright 2017, Adriaan de Groot <groot@kde.org>
@@ -60,10 +60,10 @@ def modify_grub_default(partitions, root_mount_point, distributor):
     if have_dracut:
         for partition in partitions:
             has_luks = "luksMapperName" in partition
-            if partition["fs"] == "linuxswap" and not has_luks:
+            if partition["fs"].lower() == "linuxswap" and not has_luks:
                 swap_uuid = partition["uuid"]
 
-            if (partition["fs"] == "linuxswap" and has_luks):
+            if (partition["fs"].lower() == "linuxswap" and has_luks):
                 swap_outer_uuid = partition["luksUuid"]
                 swap_outer_mappername = partition["luksMapperName"]
 
@@ -74,7 +74,7 @@ def modify_grub_default(partitions, root_mount_point, distributor):
     else:
         for partition in partitions:
             has_luks = "luksMapperName" in partition
-            if partition["fs"] == "linuxswap" and not has_luks:
+            if partition["fs"].lower() == "linuxswap" and not has_luks:
                 swap_uuid = partition["uuid"]
 
             if (partition["mountPoint"] == "/" and has_luks):
