@@ -64,15 +64,9 @@ protected slots:
                                           QListWidgetItem* previous );
 
 private:
-    class LayoutItem : public QListWidgetItem
-    {
-    public:
-        QString data;
-        KeyboardGlobal::KeyboardInfo info;
-    };
-
     /// Guess a layout based on the split-apart locale
     void guessLayout( const QStringList& langParts );
+
     void updateVariants( const QPersistentModelIndex& currentItem,
                          QString currentVariant = QString() );
 

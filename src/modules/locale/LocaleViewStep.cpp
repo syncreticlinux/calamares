@@ -132,12 +132,12 @@ LocaleViewStep::fetchGeoIpTimezone()
                         !map.value( "time_zone" ).toString().isEmpty() )
                     {
                         QString timezoneString = map.value( "time_zone" ).toString();
-                        QStringList timezone = timezoneString.split( '/', QString::SkipEmptyParts );
-                        if ( timezone.size() >= 2 )
+                        QStringList tzParts = timezoneString.split( '/', QString::SkipEmptyParts );
+                        if ( tzParts.size() >= 2 )
                         {
                             cDebug() << "GeoIP reporting" << timezoneString;
-                            QString region = timezone.takeFirst();
-                            QString zone = timezone.join( '/' );
+                            QString region = tzParts.takeFirst();
+                            QString zone = tzParts.join( '/' );
                             m_startingTimezone = qMakePair( region, zone );
                         }
                     }
@@ -271,8 +271,8 @@ LocaleViewStep::setConfigurationMap( const QVariantMap& configurationMap )
     }
     else
     {
-        m_startingTimezone = qMakePair( QStringLiteral( "Europe" ),
-                                        QStringLiteral( "Berlin" ) );
+        m_startingTimezone = qMakePair( QStringLiteral( "America" ),
+                                        QStringLiteral( "New_York" ) );
     }
 
     if ( configurationMap.contains( "localeGenPath" ) &&
