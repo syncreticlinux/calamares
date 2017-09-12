@@ -55,6 +55,7 @@ FS_MAP = {
     "fat16": "vfat",
     "fat32": "vfat",
     "linuxswap": "swap",
+    "linux-swap": "swap",
 }
 
 
@@ -225,7 +226,7 @@ class FstabGenerator(object):
 
     def generate_fstab_line_info(self, partition):
         """ Generates information for each fstab entry. """
-        filesystem = partition["fs"].lower().strip("-")
+        filesystem = partition["fs"].lower()
         has_luks = "luksMapperName" in partition
         mount_point = partition["mountPoint"]
         disk_name = disk_name_for_partition(partition)
