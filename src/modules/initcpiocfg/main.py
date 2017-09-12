@@ -114,12 +114,12 @@ def modify_mkinitcpio_conf(partitions, root_mount_point):
         hooks.append("plymouth")
 
     for partition in partitions:
-        if partition["fs"] == "linuxswap":
+        if partition["fs"].lower() == "linuxswap":
             swap_uuid = partition["uuid"]
             if "luksMapperName" in partition:
                 openswap_hook = True
 
-        if partition["fs"] == "btrfs":
+        if partition["fs"].lower() == "btrfs":
             btrfs = "yes"
 
         if partition["mountPoint"] == "/" and "luksMapperName" in partition:
