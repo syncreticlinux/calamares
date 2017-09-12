@@ -56,6 +56,7 @@ FS_MAP = {
     "fat32": "vfat",
     "linuxswap": "swap",
     "linux-swap": "swap",
+    "swap": "swap",
 }
 
 
