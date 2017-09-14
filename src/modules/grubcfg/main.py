@@ -60,10 +60,10 @@ def modify_grub_default(partitions, root_mount_point, distributor):
     if have_dracut:
         for partition in partitions:
             has_luks = "luksMapperName" in partition
-            if partition["fs"].lower().replace("-","") == "linuxswap" and not has_luks:
+            if partition["fs"].lower().strip("-") == "linuxswap" and not has_luks:
                 swap_uuid = partition["uuid"]
 
-            if (partition["fs"].lower().replace("-","") == "linuxswap" and has_luks):
+            if (partition["fs"].lower().strip("-") == "linuxswap" and has_luks):
                 swap_outer_uuid = partition["luksUuid"]
                 swap_outer_mappername = partition["luksMapperName"]
 
@@ -74,7 +74,7 @@ def modify_grub_default(partitions, root_mount_point, distributor):
     else:
         for partition in partitions:
             has_luks = "luksMapperName" in partition
-            if partition["fs"].lower().replace("-","") == "linuxswap" and not has_luks:
+            if partition["fs"].lower().strip("-") == "linuxswap" and not has_luks:
                 swap_uuid = partition["uuid"]
 
             if (partition["mountPoint"] == "/" and has_luks):

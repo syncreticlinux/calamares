@@ -47,7 +47,7 @@ def run():
             luks_root_device = partition["device"]
             luks_root_passphrase = partition["luksPassphrase"]
         elif "luksMapperName" in partition and\
-             (partition["mountPoint"] or partition["fs"].lower().replace("-","") == "linuxswap"):
+             (partition["mountPoint"] or partition["fs"].lower().strip("-") == "linuxswap"):
             additional_luks_devices.append((partition["device"],
                                             partition["luksPassphrase"]))
 
