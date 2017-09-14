@@ -114,7 +114,7 @@ def modify_mkinitcpio_conf(partitions, root_mount_point):
         hooks.append("plymouth")
 
     for partition in partitions:
-        if partition["fs"].lower().strip("-") == "linuxswap":
+        if partition["fs"].lower().lstrip("-") == "linuxswap":
             swap_uuid = partition["uuid"]
             if "luksMapperName" in partition:
                 openswap_hook = True
