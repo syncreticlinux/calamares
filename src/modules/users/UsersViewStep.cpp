@@ -1,6 +1,7 @@
 /* === This file is part of Calamares - <http://github.com/calamares> ===
  *
  *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
+ *   Copyright 2017, Adriaan de Groot <groot@kde.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,6 +21,7 @@
 
 #include "gui/UsersPage.h"
 
+#include "utils/Logger.h"
 #include "JobQueue.h"
 #include "GlobalStorage.h"
 #include "utils/Logger.h"
@@ -172,9 +174,26 @@ UsersViewStep::setConfigurationMap( const QVariantMap& configurationMap )
         m_widget->setAvailableShells(shells);
     }
 
+<<<<<<< HEAD
     if ( configurationMap.contains( "avatarFilePath" ) &&
          configurationMap.value( "avatarFilePath").type() == QVariant::String )
+=======
+    if ( configurationMap.contains( "doReusePassword" ) &&
+         configurationMap.value( "doReusePassword" ).type() == QVariant::Bool )
+>>>>>>> 34761c4214e95d877f0f1b2f29d479169885d646
     {
         m_widget->setAvatarFilePath( configurationMap.value( "avatarFilePath" ).toString() );
+    }
+
+    if ( configurationMap.contains( "passwordRequirements" ) &&
+        configurationMap.value( "passwordRequirements" ).type() == QVariant::Map )
+    {
+        auto pr_checks( configurationMap.value( "passwordRequirements" ).toMap() );
+
+        for (decltype(pr_checks)::const_iterator i = pr_checks.constBegin();
+            i != pr_checks.constEnd(); ++i)
+        {
+            m_widget->addPasswordCheck( i.key(), i.value() );
+        }
     }
 }

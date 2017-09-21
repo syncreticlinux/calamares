@@ -1,20 +1,7 @@
-/* === This file is part of Calamares - <http://github.com/calamares> ===
+/* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Originally from QJsonModel <https://github.com/dridk/QJsonmodel>
- *   Copyright 2015, Sacha Schutz <sacha@labsquare.org>
- *
- *   Calamares is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   Calamares is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
+ *   SPDX-License-Identifier: GPL-3.0+
+ *   License-Filename: LICENSES/GPLv3+-QJsonModel
  */
 
 #ifndef JSONITEM_H
@@ -26,8 +13,8 @@
 class QJsonTreeItem
 {
 public:
-    QJsonTreeItem(QJsonTreeItem * parent = nullptr);
-    virtual ~QJsonTreeItem();
+    QJsonTreeItem(QJsonTreeItem * parent = 0);
+    ~QJsonTreeItem();
     void appendChild(QJsonTreeItem * item);
     QJsonTreeItem *child(int row);
     QJsonTreeItem *parent();
@@ -41,7 +28,7 @@ public:
     QJsonValue::Type type() const;
 
 
-    static QJsonTreeItem* load(const QJsonValue& value, QJsonTreeItem * parent = nullptr);
+    static QJsonTreeItem* load(const QJsonValue& value, QJsonTreeItem * parent = 0);
 
 protected:
 

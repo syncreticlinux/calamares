@@ -1,9 +1,11 @@
-project( libcalamares )
+project( libcalamares CXX )
 
-add_definitions( ${QT_DEFINITIONS} )
-add_definitions( -DQT_SHARED )
-add_definitions( -DQT_SHAREDPOINTER_TRACK_POINTERS )
-add_definitions( -DDLLEXPORT_PRO )
+add_definitions(
+    ${QT_DEFINITIONS}
+    -DQT_SHARED
+    -DQT_SHAREDPOINTER_TRACK_POINTERS
+    -DDLLEXPORT_PRO
+)
 
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/CalamaresConfig.h.in
                 ${CMAKE_CURRENT_BINARY_DIR}/CalamaresConfig.h )
@@ -16,26 +18,27 @@ set( libSources
     Job.cpp
     JobQueue.cpp
     ProcessJob.cpp
-
-    kdsingleapplicationguard/kdsingleapplicationguard.cpp
-    kdsingleapplicationguard/kdsharedmemorylocker.cpp
-    kdsingleapplicationguard/kdtoolsglobal.cpp
-    kdsingleapplicationguard/kdlockedsharedmemorypointer.cpp
-
+)
+set( utilsSources
     utils/CalamaresUtils.cpp
     utils/CalamaresUtilsSystem.cpp
     utils/Logger.cpp
     utils/PluginFactory.cpp
     utils/Retranslator.cpp
 )
+set( kdsagSources
+    kdsingleapplicationguard/kdsingleapplicationguard.cpp
+    kdsingleapplicationguard/kdsharedmemorylocker.cpp
+    kdsingleapplicationguard/kdtoolsglobal.cpp
+    kdsingleapplicationguard/kdlockedsharedmemorypointer.cpp
+)
+set_source_files_properties( ${kdsagSources}
+    PROPERTIES COMPILE_FLAGS "${SUPPRESS_3RDPARTY_WARNINGS}" )
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-
-    ${QT_INCLUDE_DIR}
 )
-
 
 if( WITH_PYTHON )
     set( libSources
@@ -73,7 +76,7 @@ if( WITH_PYTHONQT )
 endif()
 
 
-add_library( calamares SHARED ${libSources} )
+add_library( calamares SHARED ${libSources} ${kdsagSources} ${utilsSources} )
 set_target_properties( calamares
     PROPERTIES
         AUTOMOC TRUE

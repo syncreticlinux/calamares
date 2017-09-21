@@ -1,6 +1,7 @@
 /* === This file is part of Calamares - <http://github.com/calamares> ===
  *
  *   Copyright 2015, Teo Mrnjavac <teo@kde.org>
+ *   Copyright 2017, Adriaan de Groot <groot@kde.org>
  *
  *   Based on KPluginFactory from KCoreAddons, KDE project
  *   Copyright 2007, Matthias Kretz <kretz@kde.org>
@@ -300,7 +301,7 @@ protected:
         doRegisterPlugin( keyword, &T::staticMetaObject, instanceFunction );
     }
 
-    PluginFactoryPrivate* const d_ptr_p;
+    PluginFactoryPrivate* const d_ptr;
 
     /**
      * This function is called when the factory asked to create an Object.
@@ -321,7 +322,7 @@ protected:
     static QObject* createInstance( QWidget* parentWidget, QObject* parent )
     {
         Q_UNUSED( parentWidget );
-        ParentType* p( nullptr );
+        ParentType* p = nullptr;
         if ( parent )
         {
             p = qobject_cast<ParentType*>( parent );
