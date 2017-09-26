@@ -8,6 +8,7 @@
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #   Copyright 2017, Bernhard Landauer <oberon@manjaro.org>
+#   Copyright 2017, Adriaan de Groot <groot@kde.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -486,8 +487,8 @@ def run():
             if (os.path.exists(greeter_path)):
                 # configure first found lightdm-greeter
                 for entry in os.listdir(greeter_path):
-                    if entry.name.endswith('.desktop'):
-                        greeter = entry.name.split('.')[0]
+                    if entry.endswith('.desktop'):
+                        greeter = entry.split('.')[0]
                         libcalamares.utils.debug(
                             "found greeter {!s}".format(greeter)
                             )
