@@ -32,8 +32,7 @@ set( kdsagSources
     kdsingleapplicationguard/kdtoolsglobal.cpp
     kdsingleapplicationguard/kdlockedsharedmemorypointer.cpp
 )
-set_source_files_properties( ${kdsagSources}
-    PROPERTIES COMPILE_FLAGS "${SUPPRESS_3RDPARTY_WARNINGS}" )
+mark_thirdparty_code( ${kdsagSources} )
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -46,6 +45,9 @@ if( WITH_PYTHON )
         PythonHelper.cpp
         PythonJob.cpp
         PythonJobApi.cpp
+    )
+    set_source_files_properties( PythonJob.cpp
+        PROPERTIES COMPILE_FLAGS "${SUPPRESS_BOOST_WARNINGS}"
     )
 
     include_directories(${PYTHON_INCLUDE_DIRS})

@@ -29,7 +29,7 @@
 #
 #   cmake . -DSKIP_MODULES="partition luksbootkeycfg"
 
-project( calamares CXX )
+project( calamares C CXX )
 
 cmake_minimum_required( VERSION 3.2 )
 
@@ -67,10 +67,10 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
 
     # Third-party code where we don't care so much about compiler warnings
     # (because it's uncomfortable to patch) get different flags; use
-    #       set_source_files_properties( <file>
-    #           PROPERTIES COMPILE_FLAGS "${SUPPRESS_3RDPARTY_WARNINGS}" )
+    #       mark_thirdparty_code( <file> [<file>...] )
     # to switch off warnings for those sources.
     set( SUPPRESS_3RDPARTY_WARNINGS "-Wno-everything" )
+    set( SUPPRESS_BOOST_WARNINGS " -Wno-zero-as-null-pointer-constant -Wno-disabled-macro-expansion" )
 
     set( CMAKE_CXX_FLAGS_DEBUG          "-g" )
     set( CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG" )
@@ -85,7 +85,16 @@ else()
     set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--fatal-warnings -Wnon-virtual-dtor -Woverloaded-virtual -Werror=return-type" )
 
     set( SUPPRESS_3RDPARTY_WARNINGS "" )
+    set( SUPPRESS_BOOST_WARNINGS "" )
 endif()
+
+macro(mark_thirdparty_code)
+    set_source_files_properties( ${ARGV}
+        PROPERTIES
+            COMPILE_FLAGS "${SUPPRESS_3RDPARTY_WARNINGS}"
+            COMPILE_DEFINITIONS "THIRDPARTY"
+    )
+endmacro()
 
 if( CMAKE_COMPILER_IS_GNUCXX )
     if( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 OR
@@ -103,8 +112,8 @@ find_package( Qt5 ${QT_VERSION} CONFIG REQUIRED Core Gui Widgets LinguistTools S
 find_package( YAMLCPP 0.5.1 REQUIRED )
 find_package( PolkitQt5-1 REQUIRED )
 
-option( WITH_PYTHON "Enable Python modules API (requires Boost.Python)." ON )
 option( INSTALL_CONFIG "Install configuration files" ON )
+option( WITH_PYTHON "Enable Python modules API (requires Boost.Python)." ON )
 option( WITH_PYTHONQT "Enable next generation Python modules API (experimental, requires PythonQt)." OFF )
 option( BUILD_TESTING "Build the testing tree." ON )
 
@@ -114,27 +123,25 @@ endif ()
 
 find_package( PythonLibs 3.3 )
 set_package_properties(
-    PYTHONLIBS PROPERTIES
+    PythonLibs PROPERTIES
     DESCRIPTION "C interface libraries for the Python 3 interpreter."
     URL "http://python.org"
-    PURPOSE "Python 3 is used for some Calamares job modules."
+    PURPOSE "Python 3 is used for Python job modules."
 )
 
 if ( PYTHONLIBS_FOUND )
     include( BoostPython3 )
     find_boost_python3( 1.54.0 ${PYTHONLIBS_VERSION_STRING} CALAMARES_BOOST_PYTHON3_FOUND )
     set_package_properties(
-        CALAMARES_BOOST_PYTHON3 PROPERTIES
-        DESCRIPTION "A C++ library which enables seamless interoperability between C++ and Python 3."
-        URL "http://www.boost.org"
-        PURPOSE "Boost.Python is used for interfacing with Calamares job modules written in Python 3."
+        Boost PROPERTIES
+        PURPOSE "Boost.Python is used for Python job modules."
     )
 
     find_package( PythonQt )
-    set_package_properties( PYTHONQT PROPERTIES
+    set_package_properties( PythonQt PROPERTIES
         DESCRIPTION "A Python embedding solution for Qt applications."
         URL "http://pythonqt.sourceforge.net"
-        PURPOSE "PythonQt is used for the Python modules API."
+        PURPOSE "PythonQt is used for Python view modules."
     )
 endif()
 
@@ -157,7 +164,7 @@ set( CALAMARES_TRANSLATION_LANGUAGES ar ast bg ca cs_CZ da de el en en_GB es_MX 
 ### Bump version here
 set( CALAMARES_VERSION_MAJOR 3 )
 set( CALAMARES_VERSION_MINOR 1 )
-set( CALAMARES_VERSION_PATCH 4 )
+set( CALAMARES_VERSION_PATCH 5 )
 set( CALAMARES_VERSION_RC 0 )
 
 set( CALAMARES_VERSION ${CALAMARES_VERSION_MAJOR}.${CALAMARES_VERSION_MINOR}.${CALAMARES_VERSION_PATCH} )
@@ -234,8 +241,8 @@ if( mksquashfs_PROGRAM )
     set( src_fs ${CMAKE_SOURCE_DIR}/data/example-root/ )
     set( dst_fs ${CMAKE_BINARY_DIR}/example.sqfs )
     if( EXISTS ${src_fs} )
-        # Collect directories needed for a minimal binary distro,
         # based on the build host. If /lib64 exists, assume it is needed.
+        # Collect directories needed for a minimal binary distro,
         # Note that the last path component is added to the root, so
         # if you add /usr/sbin here, it will be put into /sbin_1.
         # Add such paths to /etc/profile under ${src_fs}.
@@ -268,19 +275,11 @@ set_package_properties( mksquashfs PROPERTIES
 # add_subdirectory( thirdparty )
 add_subdirectory( src )
 
+add_feature_info(Python ${WITH_PYTHON} "Python job modules")
+add_feature_info(PythonQt ${WITH_PYTHONQT} "Python view modules")
+add_feature_info(Config ${INSTALL_CONFIG} "Install Calamares configuration")
+
 feature_summary(WHAT ALL)
-
-if( NOT WITH_PYTHON )
-    message( "-- WARNING: Building Calamares without Python support. Legacy Python job modules will not work.\n" )
-endif()
-if( NOT WITH_PYTHONQT )
-    message( "-- WARNING: Building Calamares without PythonQt support. Python modules will not work.\n" )
-endif()
-
-
-if( NOT INSTALL_CONFIG )
-    message( "-- WARNING: Configuration files will not be installed.\n" )
-endif()
 
 # Add all targets to the build-tree export set
 set( CMAKE_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/Calamares" CACHE PATH  "Installation directory for CMake files" )
