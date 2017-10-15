@@ -50,7 +50,7 @@ if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
 
     # Clang warnings: doing *everything* is counter-productive, since it warns
     # about things which we can't fix (e.g. C++98 incompatibilities, but
-    # Calaares is C++14).
+    # Calamares is C++14).
     foreach( CLANG_WARNINGS
         -Weverything
         -Wno-c++98-compat
@@ -88,6 +88,8 @@ else()
     set( SUPPRESS_BOOST_WARNINGS "" )
 endif()
 
+# Use mark_thirdparty_code() to reduce warnings from the compiler
+# on code that we're not going to fix. Call this with a list of files.
 macro(mark_thirdparty_code)
     set_source_files_properties( ${ARGV}
         PROPERTIES
@@ -265,11 +267,8 @@ else()
 endif()
 # Doesn't list mksquashfs as an optional dep, though, because it
 # hasn't been sent through the find_package() scheme.
-set_package_properties( mksquashfs PROPERTIES
-    DESCRIPTION "Create squashed filesystems"
-    URL "http://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html"
-    PURPOSE "Create example distro"
-    TYPE OPTIONAL
+add_feature_info( mksquashfs mksquashfs_FOUND
+    "Create squashed filesystems for the example distro"
 )
 
 # add_subdirectory( thirdparty )
