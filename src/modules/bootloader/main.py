@@ -8,7 +8,7 @@
 #   Copyright 2014, Daniel Hillenbrand <codeworkx@bbqlinux.org>
 #   Copyright 2014, Benjamin Vaudour <benjamin.vaudour@yahoo.fr>
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
-#   Copyright 2015, Philip Mueller <philm@manjaro.org>
+#   Copyright 2015-2017, Philip Mueller <philm@manjaro.org>
 #   Copyright 2016-2017, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #   Copyright 2017, Adriaan de Groot <groot@kde.org>
