@@ -1,6 +1,11 @@
 /* === This file is part of Calamares - <http://github.com/calamares> ===
  *
  *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
+<<<<<<< HEAD
+=======
+ *   Copyright 2017, Adriaan de Groot <groot@kde.org>
+ *   Copyright 2017, Gabriel Craciunescu <crazy@frugalware.org>
+>>>>>>> 62c03d685768a2c814e258cb03ad5884363bc9dc
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -130,6 +135,7 @@ UsersViewStep::setConfigurationMap( const QVariantMap& configurationMap )
     }
     else
     {
+        cDebug() << "WARNING: Using fallback groups. Please check defaultGroups in users.conf";
         m_defaultGroups = QStringList{ "lp", "video", "network", "storage", "wheel", "audio" };
     }
 
