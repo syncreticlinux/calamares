@@ -40,6 +40,18 @@ set( CMAKE_CXX_STANDARD_REQUIRED ON )
 set( CMAKE_C_STANDARD 99 )
 set( CMAKE_C_STANDARD_REQUIRED ON )
 
+# CMake 3.9, 3.10 compatibility
+if( POLICY CMP0071 )
+    cmake_policy( SET CMP0071 NEW )
+endif()
+if(NOT CMAKE_VERSION VERSION_LESS "3.10.0")
+    list(APPEND CMAKE_AUTOMOC_MACRO_NAMES 
+        "K_PLUGIN_FACTORY_WITH_JSON"
+        "K_EXPORT_PLASMA_DATAENGINE_WITH_JSON"
+        "K_EXPORT_PLASMA_RUNNER"
+    )
+endif()
+
 if( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
     message( STATUS "Found Clang ${CMAKE_CXX_COMPILER_VERSION}, setting up Clang-specific compiler flags." )
     set( CMAKE_C_FLAGS                  "${CMAKE_C_FLAGS} -Wall" )
@@ -171,12 +183,12 @@ set( CALAMARES_ORGANIZATION_NAME "Calamares" )
 set( CALAMARES_ORGANIZATION_DOMAIN "github.com/calamares" )
 set( CALAMARES_APPLICATION_NAME  "Calamares" )
 set( CALAMARES_DESCRIPTION_SUMMARY "The distribution-independent installer framework" )
-set( CALAMARES_TRANSLATION_LANGUAGES ar ast bg ca cs_CZ da de el en en_GB es_MX es eu fr he hi hr hu id is it_IT ja lt mr nl pl pt_BR pt_PT ro ru sk sv th tr_TR zh_CN zh_TW )
+set( CALAMARES_TRANSLATION_LANGUAGES ar ast bg ca cs_CZ da de el en en_GB es_MX es eu fr he hi hr hu id is it_IT ja lt mr nl pl pt_BR pt_PT ro ru sk sq sv th tr_TR zh_CN zh_TW )
 
 ### Bump version here
 set( CALAMARES_VERSION_MAJOR 3 )
-set( CALAMARES_VERSION_MINOR 1 )
-set( CALAMARES_VERSION_PATCH 8 )
+set( CALAMARES_VERSION_MINOR 2 )
+set( CALAMARES_VERSION_PATCH 0 )
 set( CALAMARES_VERSION_RC 1 )
 
 set( CALAMARES_VERSION ${CALAMARES_VERSION_MAJOR}.${CALAMARES_VERSION_MINOR}.${CALAMARES_VERSION_PATCH} )
