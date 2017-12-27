@@ -403,8 +403,9 @@ PartitionCoreModule::jobs() const
     foreach ( auto job, lst )
         jobsDebug.append( job->prettyName() );
 
-    cDebug() << "PartitionCodeModule has been asked for jobs. About to return:"
-             << jobsDebug.join( "\n" );
+    cDebug() << "PartitionCodeModule has been asked for jobs. About to return:";
+    for ( const auto item: jobsDebug )
+        cDebug() << "  .." << item;
 
     return lst;
 }
@@ -427,9 +428,9 @@ PartitionCoreModule::dumpQueue() const
     cDebug() << "# Queue:";
     for ( auto info : m_deviceInfos )
     {
-        cDebug() << "## Device:" << info->device->name();
+        cDebug() << "  .. Device:" << info->device->name();
         for ( auto job : info->jobs )
-            cDebug() << "-" << job->prettyName();
+            cDebug() << "  .." << job->prettyName();
     }
 }
 
