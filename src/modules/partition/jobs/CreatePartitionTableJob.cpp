@@ -73,21 +73,33 @@ CreatePartitionTableJob::exec()
 
     PartitionTable* table = m_device->partitionTable();
     cDebug() << "Creating new partition table of type" << table->typeName()
-             << ", uncommitted yet:\n" << table;
+             << " - Uncommitted yet: " << table;
 
     QProcess lsblk;
     lsblk.setProgram( "lsblk" );
     lsblk.setProcessChannelMode( QProcess::MergedChannels );
     lsblk.start();
     lsblk.waitForFinished();
-    cDebug() << "lsblk:\n" << lsblk.readAllStandardOutput();
+
+    QByteArray byte = lsblk.readAllStandardOutput();
+    QStringList lines = QString(byte).split(("\n"),QString::SkipEmptyParts);
+    cDebug() << "CreatePartitionTableJob asked for lsblk output:";
+
+    for (const auto line: lines)
+        cDebug() << "  .." << line;
 
     QProcess mount;
     mount.setProgram( "mount" );
     mount.setProcessChannelMode( QProcess::MergedChannels );
     mount.start();
     mount.waitForFinished();
-    cDebug() << "mount:\n" << mount.readAllStandardOutput();
+
+    QByteArray mbyte = mount.readAllStandardOutput();
+    QStringList mlines = QString(mbyte).split(("\n"),QString::SkipEmptyParts);
+    cDebug() << "CreatePartitionTableJob asked for mount output:";
+
+    for (const auto mline: mlines)
+        cDebug() << "  .." << mline;
 
     CreatePartitionTableOperation op(*m_device, table);
     op.setStatus(Operation::StatusRunning);
