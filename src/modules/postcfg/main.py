@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <http://github.com/calamares> ===
 #
-#   Copyright 2014 - 2016, Philip Müller <philm@manjaro.org>
+#   Copyright 2014 - 2018, Philip Müller <philm@manjaro.org>
 #   Copyright 2016, Artoo <artoo@manjaro.org>
 #
 #   Calamares is free software: you can redistribute it and/or modify
@@ -65,15 +65,19 @@ class ConfigController:
         self.init_keyring()
         self.populate_keyring()
 
-        # Remove calamares
-        self.remove_pkg("calamares", "usr/bin/calamares")
-
         # Generate mirror list
         if exists(join(self.root, "usr/bin/pacman-mirrors")):
             if libcalamares.globalstorage.value("hasInternet"):
                 target_env_call(["pacman-mirrors", "-g", "--geoip"])
         else:
             self.copy_file('etc/pacman.d/mirrorlist')
+
+        # Initialize package manager databases
+        if libcalamares.globalstorage.value("hasInternet"):
+            target_env_call(["pacman", "-Syy"])
+
+        # Remove calamares
+        self.remove_pkg("calamares", "usr/bin/calamares")
 
         # Copy skel to root
         self.copy_folder('etc/skel', 'root')
