@@ -68,7 +68,7 @@ class ConfigController:
         # Generate mirror list
         if exists(join(self.root, "usr/bin/pacman-mirrors")):
             if libcalamares.globalstorage.value("hasInternet"):
-                target_env_call(["pacman-mirrors", "-g", "--geoip"])
+                target_env_call(["pacman-mirrors", "-f3"])
         else:
             self.copy_file('etc/pacman.d/mirrorlist')
 
