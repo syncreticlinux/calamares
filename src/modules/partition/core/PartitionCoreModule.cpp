@@ -1,4 +1,4 @@
-/* === This file is part of Calamares - <http://github.com/calamares> ===
+/* === This file is part of Calamares - <https://github.com/calamares> ===
  *
  *   Copyright 2014, Aurélien Gâteau <agateau@kde.org>
  *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
@@ -403,9 +403,8 @@ PartitionCoreModule::jobs() const
     foreach ( auto job, lst )
         jobsDebug.append( job->prettyName() );
 
-    cDebug() << "PartitionCodeModule has been asked for jobs. About to return:";
-    for ( const auto item: jobsDebug )
-        cDebug() << "  .." << item;
+    cDebug() << "PartitionCodeModule has been asked for jobs. About to return:"
+             << jobsDebug.join( "\n" );
 
     return lst;
 }
@@ -428,9 +427,9 @@ PartitionCoreModule::dumpQueue() const
     cDebug() << "# Queue:";
     for ( auto info : m_deviceInfos )
     {
-        cDebug() << "  .. Device:" << info->device->name();
+        cDebug() << "## Device:" << info->device->name();
         for ( auto job : info->jobs )
-            cDebug() << "  .." << job->prettyName();
+            cDebug() << "-" << job->prettyName();
     }
 }
 
@@ -505,16 +504,7 @@ PartitionCoreModule::scanForEfiSystemPartitions()
     }
 
     QList< Partition* > efiSystemPartitions =
-        KPMHelpers::findPartitions( devices,
-                                    []( Partition* partition ) -> bool
-    {
-        if ( partition->activeFlags().testFlag( PartitionTable::FlagEsp ) )
-        {
-            cDebug() << "Found EFI system partition at" << partition->partitionPath();
-            return true;
-        }
-        return false;
-    } );
+        KPMHelpers::findPartitions( devices, PartUtils::isEfiBootable );
 
     if ( efiSystemPartitions.isEmpty() )
         cDebug() << "WARNING: system is EFI but no EFI system partitions found.";

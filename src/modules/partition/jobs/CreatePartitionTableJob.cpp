@@ -1,4 +1,4 @@
-/* === This file is part of Calamares - <http://github.com/calamares> ===
+/* === This file is part of Calamares - <https://github.com/calamares> ===
  *
  *   Copyright 2014, Aurélien Gâteau <agateau@kde.org>
  *   Copyright 2015, Teo Mrnjavac <teo@kde.org>
@@ -73,33 +73,21 @@ CreatePartitionTableJob::exec()
 
     PartitionTable* table = m_device->partitionTable();
     cDebug() << "Creating new partition table of type" << table->typeName()
-             << " - Uncommitted yet: " << table;
+             << ", uncommitted yet:\n" << table;
 
     QProcess lsblk;
     lsblk.setProgram( "lsblk" );
     lsblk.setProcessChannelMode( QProcess::MergedChannels );
     lsblk.start();
     lsblk.waitForFinished();
-
-    QByteArray byte = lsblk.readAllStandardOutput();
-    QStringList lines = QString(byte).split(("\n"),QString::SkipEmptyParts);
-    cDebug() << "CreatePartitionTableJob asked for lsblk output:";
-
-    for (const auto line: lines)
-        cDebug() << "  .." << line;
+    cDebug() << "lsblk:\n" << lsblk.readAllStandardOutput();
 
     QProcess mount;
     mount.setProgram( "mount" );
     mount.setProcessChannelMode( QProcess::MergedChannels );
     mount.start();
     mount.waitForFinished();
-
-    QByteArray mbyte = mount.readAllStandardOutput();
-    QStringList mlines = QString(mbyte).split(("\n"),QString::SkipEmptyParts);
-    cDebug() << "CreatePartitionTableJob asked for mount output:";
-
-    for (const auto mline: mlines)
-        cDebug() << "  .." << mline;
+    cDebug() << "mount:\n" << mount.readAllStandardOutput();
 
     CreatePartitionTableOperation op(*m_device, table);
     op.setStatus(Operation::StatusRunning);
