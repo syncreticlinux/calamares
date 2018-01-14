@@ -66,7 +66,6 @@ protected slots:
 private:
     /// Guess a layout based on the split-apart locale
     void guessLayout( const QStringList& langParts );
-
     void updateVariants( const QPersistentModelIndex& currentItem,
                          QString currentVariant = QString() );
 
