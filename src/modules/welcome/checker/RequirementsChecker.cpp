@@ -1,7 +1,8 @@
-/* === This file is part of Calamares - <http://github.com/calamares> ===
+/* === This file is part of Calamares - <https://github.com/calamares> ===
  *
  *   Copyright 2014-2017, Teo Mrnjavac <teo@kde.org>
  *   Copyright 2017, Adriaan de Groot <groot@kde.org>
+ *   Copyright 2017, Gabriel Craciunescu <crazy@frugalware.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -78,7 +79,7 @@ RequirementsChecker::RequirementsChecker( QObject* parent )
         bool hasPower = false;
         bool hasInternet = false;
         bool isRoot = false;
-        bool enoughScreen = (availableSize.width() >= CalamaresUtils::windowPreferredWidth) && (availableSize.height() >= CalamaresUtils::windowPreferredHeight);
+        bool enoughScreen = (availableSize.width() >= CalamaresUtils::windowMinimumWidth) && (availableSize.height() >= CalamaresUtils::windowMinimumHeight);
 
         qint64 requiredStorageB = CalamaresUtils::GiBtoBytes(m_requiredStorageGB);
         cDebug() << "Need at least storage bytes:" << requiredStorageB;
@@ -99,8 +100,12 @@ RequirementsChecker::RequirementsChecker( QObject* parent )
         if ( m_entriesToCheck.contains( "root" ) )
             isRoot = checkIsRoot();
 
-        cDebug() << "enoughStorage, enoughRam, hasPower, hasInternet, isRoot: "
-                 << enoughStorage << enoughRam << hasPower << hasInternet << isRoot;
+        cDebug() << "RequirementsChecker output:"
+                 << " enoughStorage:" << enoughStorage
+                 << " enoughRam:" << enoughRam
+                 << " hasPower:" << hasPower
+                 << " hasInternet:" << hasInternet
+                 << " isRoot:" << isRoot;
 
         QList< PrepareEntry > checkEntries;
         foreach ( const QString& entry, m_entriesToCheck )
@@ -308,7 +313,12 @@ RequirementsChecker::verdict() const
 bool
 RequirementsChecker::checkEnoughStorage( qint64 requiredSpace )
 {
+#ifdef WITHOUT_LIBPARTED
+    cDebug() << "WARNING: RequirementsChecker is configured without libparted.";
+    return false;
+#else
     return check_big_enough( requiredSpace );
+#endif
 }
 
 
