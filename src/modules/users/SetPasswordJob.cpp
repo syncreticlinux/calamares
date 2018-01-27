@@ -17,7 +17,7 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <jobs/SetPasswordJob.h>
+#include <SetPasswordJob.h>
 
 #include "JobQueue.h"
 #include "GlobalStorage.h"

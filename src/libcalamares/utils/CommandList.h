@@ -1,6 +1,6 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
+ *   Copyright 2018, Adriaan de Groot <groot@kde.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,33 +16,40 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CREATEUSERJOB_H
-#define CREATEUSERJOB_H
+#ifndef COMMANDLIST_H
+#define COMMANDLIST_H
 
-#include <Job.h>
+#include "Job.h"
 
 #include <QStringList>
+#include <QVariant>
 
-class CreateUserJob : public Calamares::Job
+namespace CalamaresUtils
 {
-    Q_OBJECT
+
+class CommandList : protected QStringList
+{
 public:
-    CreateUserJob( const QString& userName,
-                   const QString& fullName,
-                   const QString& shell,
-                   bool autologin,
-                   const QStringList& defaultGroups );
-    QString prettyName() const override;
-    QString prettyDescription() const override;
-    QString prettyStatusMessage() const override;
-    Calamares::JobResult exec() override;
+    CommandList( bool doChroot = true );
+    CommandList( const QVariant& v, bool doChroot = true );
+    ~CommandList();
+
+    bool doChroot() const
+    {
+        return m_doChroot;
+    }
+
+    Calamares::JobResult run( const QObject* parent );
+
+    using QStringList::isEmpty;
+    using QStringList::count;
+    using QStringList::cbegin;
+    using QStringList::cend;
+    using QStringList::const_iterator;
 
 private:
-    QString m_userName;
-    QString m_fullName;
-    QString m_shell;
-    bool m_autologin;
-    QStringList m_defaultGroups;
-};
+    bool m_doChroot;
+} ;
 
-#endif /* CREATEUSERJOB_H */
+}  // namespace
+#endif // COMMANDLIST_H

@@ -6,34 +6,48 @@ endif()
 find_package( Qt5 COMPONENTS Core Test REQUIRED )
 find_package( Crypt REQUIRED )
 
+# Add optional libraries here
+set( USER_EXTRA_LIB )
+
+find_package( LibPWQuality )
+set_package_properties(
+    LibPWQuality PROPERTIES
+    PURPOSE "Extra checks of password quality"
+)
+
+if( LibPWQuality_FOUND )
+    list( APPEND USER_EXTRA_LIB ${LibPWQuality_LIBRARIES} )
+    include_directories( ${LibPWQuality_INCLUDE_DIRS} )
+    add_definitions( -DCHECK_PWQUALITY -DHAVE_LIBPWQUALITY )
+endif()
+
 include_directories( ${PROJECT_BINARY_DIR}/src/libcalamaresui )
 
 calamares_add_plugin( users
     TYPE viewmodule
     EXPORT_MACRO PLUGINDLLEXPORT_PRO
     SOURCES
-        jobs/CreateUserJob.cpp
-        jobs/SetPasswordJob.cpp
+        CreateUserJob.cpp
+        SetPasswordJob.cpp
         UsersViewStep.cpp
-        gui/UsersPage.cpp
-        jobs/SetHostNameJob.cpp
-        jobs/SetAvatarJob.cpp
-        gui/AddUserDialog.cpp
+        UsersPage.cpp
+        SetHostNameJob.cpp
+        CheckPWQuality.cpp
     UI
-        gui/page_usersetup.ui
-        gui/adduserdialog.ui
+        page_usersetup.ui
     RESOURCES
         users.qrc
     LINK_PRIVATE_LIBRARIES
         calamaresui
         ${CRYPT_LIBRARIES}
+        ${USER_EXTRA_LIB}
     SHARED_LIB
 )
 
 if( ECM_FOUND )
     ecm_add_test(
             PasswordTests.cpp
-            jobs/SetPasswordJob.cpp
+            SetPasswordJob.cpp
         TEST_NAME
             passwordtest
         LINK_LIBRARIES

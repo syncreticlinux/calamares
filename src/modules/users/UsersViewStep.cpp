@@ -1,11 +1,8 @@
 /* === This file is part of Calamares - <https://github.com/calamares> ===
  *
  *   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
-<<<<<<< HEAD
-=======
  *   Copyright 2017, Adriaan de Groot <groot@kde.org>
  *   Copyright 2017, Gabriel Craciunescu <crazy@frugalware.org>
->>>>>>> 62c03d685768a2c814e258cb03ad5884363bc9dc
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -23,11 +20,11 @@
 
 #include "UsersViewStep.h"
 
-#include "gui/UsersPage.h"
+#include "UsersPage.h"
 
+#include "utils/Logger.h"
 #include "JobQueue.h"
 #include "GlobalStorage.h"
-#include "utils/Logger.h"
 
 CALAMARES_PLUGIN_FACTORY_DEFINITION( UsersViewStepFactory, registerPlugin<UsersViewStep>(); )
 
@@ -146,12 +143,6 @@ UsersViewStep::setConfigurationMap( const QVariantMap& configurationMap )
                         configurationMap.value( "autologinGroup" ).toString() );
     }
 
-    if ( configurationMap.contains( "doAutologin" ) &&
-         configurationMap.value( "doAutologin" ).type() == QVariant::Bool )
-    {
-        m_widget->setAutologin( configurationMap.value( "doAutologin" ).toBool() );
-    }
-
     if ( configurationMap.contains( "sudoersGroup" ) &&
          configurationMap.value( "sudoersGroup" ).type() == QVariant::String )
     {
@@ -164,23 +155,31 @@ UsersViewStep::setConfigurationMap( const QVariantMap& configurationMap )
     {
         Calamares::JobQueue::instance()->globalStorage()->insert( "setRootPassword",
                         configurationMap.value( "setRootPassword" ).toBool() );
-        m_widget->setHaveRootPassword( configurationMap.value( "setRootPassword" ).toBool() );
+        m_widget->setWriteRootPassword( configurationMap.value( "setRootPassword" ).toBool() );
     }
 
-    if ( configurationMap.contains( "availableShells" ) &&
-         configurationMap.value( "availableShells" ).type() == QVariant::String )
+    if ( configurationMap.contains( "doAutologin" ) &&
+         configurationMap.value( "doAutologin" ).type() == QVariant::Bool )
     {
-        QStringList shells;
-        for (QString& shell : configurationMap.value( "availableShells" ).toString().split(",")) {
-            shells.append( shell.trimmed() );
+        m_widget->setAutologinDefault( configurationMap.value( "doAutologin" ).toBool() );
+    }
+
+    if ( configurationMap.contains( "doReusePassword" ) &&
+         configurationMap.value( "doReusePassword" ).type() == QVariant::Bool )
+    {
+        m_widget->setReusePasswordDefault( configurationMap.value( "doReusePassword" ).toBool() );
+    }
+
+    if ( configurationMap.contains( "passwordRequirements" ) &&
+        configurationMap.value( "passwordRequirements" ).type() == QVariant::Map )
+    {
+        auto pr_checks( configurationMap.value( "passwordRequirements" ).toMap() );
+
+        for (decltype(pr_checks)::const_iterator i = pr_checks.constBegin();
+            i != pr_checks.constEnd(); ++i)
+        {
+            m_widget->addPasswordCheck( i.key(), i.value() );
         }
-
-        m_widget->setAvailableShells(shells);
-    }
-
-    if ( configurationMap.contains( "avatarFilePath" ) &&
-         configurationMap.value( "avatarFilePath").type() == QVariant::String )
-    {
-        m_widget->setAvatarFilePath( configurationMap.value( "avatarFilePath" ).toString() );
     }
 }
+

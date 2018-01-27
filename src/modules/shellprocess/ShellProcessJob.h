@@ -1,6 +1,6 @@
-/* === This file is part of Calamares - <http://github.com/calamares> ===
+/* === This file is part of Calamares - <https://github.com/calamares> ===
  *
- *   Copyright 2016, Lisa Vitolo <shainer@chakralinux.org>
+ *   Copyright 2018, Adriaan de Groot <groot@kde.org>
  *
  *   Calamares is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,27 +16,39 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SETAVATARJOB_CPP_H
-#define SETAVATARJOB_CPP_H
+#ifndef SHELLPROCESSJOB_H
+#define SHELLPROCESSJOB_H
 
-#include <Job.h>
+#include <QObject>
+#include <QVariantMap>
 
-class SetAvatarJob : public Calamares::Job
+#include <CppJob.h>
+
+#include <utils/CommandList.h>
+#include <utils/PluginFactory.h>
+
+#include <PluginDllMacro.h>
+
+
+class PLUGINDLLEXPORT ShellProcessJob : public Calamares::CppJob
 {
     Q_OBJECT
+
 public:
-    SetAvatarJob( const QString& avatarFile, const QString& destPath, const QString& owner, const QString& group );
+    explicit ShellProcessJob( QObject* parent = nullptr );
+    virtual ~ShellProcessJob() override;
+
     QString prettyName() const override;
-    QString prettyDescription() const override;
-    QString prettyStatusMessage() const override;
+
     Calamares::JobResult exec() override;
+
+    void setConfigurationMap( const QVariantMap& configurationMap ) override;
+
 private:
-    const QString m_avatarFile;
-    const QString m_destPath;
-    // Owner and group of the destination avatar file.
-    const QString m_owner;
-    const QString m_group;
+    CalamaresUtils::CommandList* m_commands;
+    bool m_dontChroot;
 };
 
+CALAMARES_PLUGIN_FACTORY_DECLARATION( ShellProcessJobFactory )
 
-#endif // SETAVATARJOB_CPP_H
+#endif // SHELLPROCESSJOB_H
