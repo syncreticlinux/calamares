@@ -43,9 +43,13 @@ public:
 
     void setConfigurationMap( const QVariantMap& configurationMap ) override;
 
+    /// The number of bindings
+    int count();
+    /// The number of value-checks for the named binding (-1 if binding doesn't exist)
+    int count( const QString& variableName );
+
 private:
     QList<ContextualProcessBinding*> m_commands;
-    bool m_dontChroot;
 };
 
 CALAMARES_PLUGIN_FACTORY_DECLARATION( ContextualProcessJobFactory )

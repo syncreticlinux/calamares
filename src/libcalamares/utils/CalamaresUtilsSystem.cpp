@@ -23,6 +23,7 @@
 #include "JobQueue.h"
 #include "GlobalStorage.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QProcess>
 #include <QRegularExpression>
@@ -57,8 +58,15 @@ System::~System()
 {}
 
 
-System*System::instance()
+System*
+System::instance()
 {
+    if ( !s_instance )
+    {
+        cError() << "No Calamares system-object has been created.";
+        cError() << " .. using a bogus instance instead.";
+        return new System( true, nullptr );
+    }
     return s_instance;
 }
 
@@ -109,7 +117,7 @@ System::runCommand(
     if ( ( location == System::RunLocation::RunInTarget ) &&
          ( !gs || !gs->contains( "rootMountPoint" ) ) )
     {
-        cLog() << "No rootMountPoint in global storage";
+        cWarning() << "No rootMountPoint in global storage";
         return -3;
     }
 
@@ -122,7 +130,7 @@ System::runCommand(
         QString destDir = gs->value( "rootMountPoint" ).toString();
         if ( !QDir( destDir ).exists() )
         {
-            cLog() << "rootMountPoint points to a dir which does not exist";
+            cWarning() << "rootMountPoint points to a dir which does not exist";
             return -3;
         }
 
@@ -145,15 +153,15 @@ System::runCommand(
         if ( QDir( workingPath ).exists() )
             process.setWorkingDirectory( QDir( workingPath ).absolutePath() );
         else
-            cLog() << "Invalid working directory:" << workingPath;
+            cWarning() << "Invalid working directory:" << workingPath;
             return -3;
     }
 
-    cLog() << "Running" << program << arguments;
+    cDebug() << "Running" << program << arguments;
     process.start();
     if ( !process.waitForStarted() )
     {
-        cLog() << "Process failed to start" << process.error();
+        cWarning() << "Process failed to start" << process.error();
         return -2;
     }
 
@@ -165,8 +173,8 @@ System::runCommand(
 
     if ( !process.waitForFinished( timeoutSec ? ( timeoutSec * 1000 ) : -1 ) )
     {
-        cLog() << "Timed out. output so far:";
-        cLog() << process.readAllStandardOutput();
+        cWarning() << "Timed out. output so far:\n" <<
+            process.readAllStandardOutput();
         return -4;
     }
 
@@ -174,16 +182,16 @@ System::runCommand(
 
     if ( process.exitStatus() == QProcess::CrashExit )
     {
-        cLog() << "Process crashed";
+        cWarning() << "Process crashed";
         return -1;
     }
 
     auto r = process.exitCode();
-    cLog() << "Finished. Exit code:" << r;
+    cDebug() << "Finished. Exit code:" << r;
     if ( r != 0 )
     {
-        cLog() << "Target cmd:" << args;
-        cLog().noquote() << "Target output:\n" << output;
+        cDebug() << "Target cmd:" << args;
+        cDebug().noquote() << "Target output:\n" << output;
     }
     return ProcessResult(r, output);
 }
@@ -251,46 +259,45 @@ System::doChroot() const
 }
 
 Calamares::JobResult
-ProcessResult::explainProcess( const QObject* parent, int ec, const QString& command, const QString& output, int timeout )
+ProcessResult::explainProcess( int ec, const QString& command, const QString& output, int timeout )
 {
-#define tr parent->tr
     using Calamares::JobResult;
 
     if ( ec == 0 )
         return JobResult::ok();
 
-    QString outputMessage = output.isEmpty() ? QStringLiteral("\nThere was no output from the command.")
-        : (tr("\nOutput:\n") + output);
+    QString outputMessage = output.isEmpty()
+        ? QCoreApplication::translate( "ProcessResult", "\nThere was no output from the command.")
+        : (QCoreApplication::translate( "ProcessResult", "\nOutput:\n") + output);
 
     if ( ec == -1 ) //Crash!
-        return JobResult::error( tr( "External command crashed." ),
-                                 tr( "Command <i>%1</i> crashed." )
+        return JobResult::error( QCoreApplication::translate( "ProcessResult", "External command crashed." ),
+                                 QCoreApplication::translate( "ProcessResult", "Command <i>%1</i> crashed." )
                                         .arg( command )
                                         + outputMessage );
 
     if ( ec == -2 )
-        return JobResult::error( tr( "External command failed to start." ),
-                                 tr( "Command <i>%1</i> failed to start." )
+        return JobResult::error( QCoreApplication::translate( "ProcessResult", "External command failed to start." ),
+                                 QCoreApplication::translate( "ProcessResult", "Command <i>%1</i> failed to start." )
                                     .arg( command ) );
 
     if ( ec == -3 )
-        return JobResult::error( tr( "Internal error when starting command." ),
-                                 tr( "Bad parameters for process job call." ) );
+        return JobResult::error( QCoreApplication::translate( "ProcessResult", "Internal error when starting command." ),
+                                 QCoreApplication::translate( "ProcessResult", "Bad parameters for process job call." ) );
 
     if ( ec == -4 )
-        return JobResult::error( tr( "External command failed to finish." ),
-                                 tr( "Command <i>%1</i> failed to finish in %2 seconds." )
+        return JobResult::error( QCoreApplication::translate( "ProcessResult", "External command failed to finish." ),
+                                 QCoreApplication::translate( "ProcessResult", "Command <i>%1</i> failed to finish in %2 seconds." )
                                     .arg( command )
                                     .arg( timeout )
                                     + outputMessage );
 
     //Any other exit code
-    return JobResult::error( tr( "External command finished with errors." ),
-                             tr( "Command <i>%1</i> finished with exit code %2." )
+    return JobResult::error( QCoreApplication::translate( "ProcessResult", "External command finished with errors." ),
+                             QCoreApplication::translate( "ProcessResult", "Command <i>%1</i> finished with exit code %2." )
                                 .arg( command )
                                 .arg( ec )
                                 + outputMessage );
-#undef tr
 }
 
 }  // namespace

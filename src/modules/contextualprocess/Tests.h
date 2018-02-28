@@ -16,38 +16,22 @@
  *   along with Calamares. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHELLPROCESSJOB_H
-#define SHELLPROCESSJOB_H
+#ifndef TESTS_H
+#define TESTS_H
 
 #include <QObject>
-#include <QVariantMap>
 
-#include <CppJob.h>
-
-#include <utils/CommandList.h>
-#include <utils/PluginFactory.h>
-
-#include <PluginDllMacro.h>
-
-
-class PLUGINDLLEXPORT ShellProcessJob : public Calamares::CppJob
+class ContextualProcessTests : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit ShellProcessJob( QObject* parent = nullptr );
-    virtual ~ShellProcessJob() override;
+    ContextualProcessTests();
+    ~ContextualProcessTests() override;
 
-    QString prettyName() const override;
-
-    Calamares::JobResult exec() override;
-
-    void setConfigurationMap( const QVariantMap& configurationMap ) override;
-
-private:
-    CalamaresUtils::CommandList* m_commands;
+private Q_SLOTS:
+    void initTestCase();
+    // Check the sample config file is processed correctly
+    void testProcessListSampleConfig();
 };
 
-CALAMARES_PLUGIN_FACTORY_DECLARATION( ShellProcessJobFactory )
-
-#endif // SHELLPROCESSJOB_H
+#endif
