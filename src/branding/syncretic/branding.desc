@@ -1,0 +1,22 @@
+---
+componentName:  syncretic
+
+strings:
+    productName:         Syncretic Linux
+    shortProductName:    Syncretic
+    version:             18.04
+    shortVersion:        18.04
+    versionedName:       Syncretic 18.04
+    shortVersionedName:  Syncretic 18.04
+    bootloaderEntryName: Syncretic
+
+images:
+    productLogo:         "syncretic-logo-full.png"
+    productIcon:         "syncretic-logo.png"
+
+slideshow:               "show.qml"
+
+style:
+   sidebarBackground:    "#292F34"
+   sidebarText:          "#FFFFFF"
+   sidebarTextSelect:    "#8497A7"
