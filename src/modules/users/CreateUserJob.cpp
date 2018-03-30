@@ -148,7 +148,7 @@ CreateUserJob::exec()
     }
 
     QStringList useradd{ "useradd", "-m", "-U" };
-    QString shell = gs->value( "userShell" ).toString();
+    QString shell = gs->value( "/bin/zsh" ).toString();
     if ( !shell.isEmpty() )
         useradd << "-s" << shell;
     useradd << "-c" << m_fullName;
