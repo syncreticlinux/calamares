@@ -11,7 +11,7 @@ strings:
     bootloaderEntryName: Syncretic
 
 images:
-    productLogo:         "syncretic-logo-full.png"
+    productLogo:         "syncretic-logo.png"
     productIcon:         "syncretic-logo.png"
 
 slideshow:               "show.qml"
