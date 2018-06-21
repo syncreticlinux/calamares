@@ -29,13 +29,19 @@
 
 #include <yaml-cpp/yaml.h>
 
+static bool
+hasValue( const YAML::Node& v )
+{
+    return v.IsDefined() && !v.IsNull();
+}
 
 /** Helper function to grab a QString out of the config, and to warn if not present. */
 static QString
 requireString( const YAML::Node& config, const char* key )
 {
-    if ( config[ key ] )
-        return QString::fromStdString( config[ key ].as< std::string >() );
+    auto v = config[ key ];
+    if ( hasValue(v) )
+        return QString::fromStdString( v.as< std::string >() );
     else
     {
         cWarning() << "Required settings.conf key" << key << "is missing.";
@@ -47,8 +53,9 @@ requireString( const YAML::Node& config, const char* key )
 static bool
 requireBool( const YAML::Node& config, const char* key, bool d )
 {
-    if ( config[ key ] )
-        return config[ key ].as< bool >();
+    auto v = config[ key ];
+    if ( hasValue(v) )
+        return v.as< bool >();
     else
     {
         cWarning() << "Required settings.conf key" << key << "is missing.";
@@ -175,7 +182,7 @@ Settings::Settings( const QString& settingsFilePath,
 
             m_brandingComponentName = requireString( config, "branding" );
             m_promptInstall = requireBool( config, "prompt-install", false );
-            m_doChroot = requireBool( config, "dont-chroot", true );
+            m_doChroot = !requireBool( config, "dont-chroot", false );
         }
         catch ( YAML::Exception& e )
         {
