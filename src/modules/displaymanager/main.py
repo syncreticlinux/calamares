@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <https://github.com/calamares> ===
 #
-#   Copyright 2014-2017, Philip Müller <philm@manjaro.org>
+#   Copyright 2014-2018, Philip Müller <philm@manjaro.org>
 #   Copyright 2014-2015, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2014, Kevin Kofler <kevin.kofler@chello.at>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
@@ -552,9 +552,9 @@ class DMlightdm(DisplayManager):
     def desktop_environment_setup(self, default_desktop_environment):
         os.system(
             "sed -i -e \"s/^.*user-session=.*/user-session={!s}/\" "
-            "{!s}".format(
+            "{!s}/etc/lightdm/lightdm.conf".format(
                 default_desktop_environment.desktop_file,
-                lightdm_conf_path
+                self.root_mount_point
                 )
             )
 
