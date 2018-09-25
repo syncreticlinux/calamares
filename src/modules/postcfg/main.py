@@ -103,7 +103,7 @@ class ConfigController:
 
         # Enable 'menu_auto_hide' when supported in grubenv
         if exists(join(self.root, "usr/bin/grub-set-bootflag")):
-            target_env_call(["grub-editenv - set menu_auto_hide=1"])
+            target_env_call(["grub-editenv", "-", "set", "menu_auto_hide=1", "boot_success=1"])
 
         return None
 
