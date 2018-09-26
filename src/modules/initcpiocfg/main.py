@@ -156,7 +156,7 @@ def modify_mkinitcpio_conf(partitions, root_mount_point):
     elif (btrfs == "yes"
           and cpu['proc0']['vendor_id'].lower() == "genuineintel"):
         modules.append("crc32c-intel")
-    elif not exists(join(self.root, "usr/bin/grub-set-bootflag")):
+    elif not os.path.exists(join(self.root, "usr/bin/grub-set-bootflag")):
         hooks.append("fsck")
 
     write_mkinitcpio_lines(hooks, modules, files, root_mount_point)

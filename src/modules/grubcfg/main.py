@@ -103,14 +103,14 @@ def modify_grub_default(partitions, root_mount_point, distributor):
 
     kernel_params = ["quiet"]
 
-    if exists(join(self.root, "usr/bin/grub-set-bootflag")):
+    if os.path.exists(join(self.root, "usr/bin/grub-set-bootflag")):
         kernel_params.append = ["loglevel=3", "vga=current", "rd.systemd.show_status=auto",
                 "rd.udev.log-priority=3", "vt.global_cursor_default=0"]
 
     if cryptdevice_params:
         kernel_params.extend(cryptdevice_params)
 
-    if use_splash and not exists(join(self.root, "usr/bin/grub-set-bootflag")):
+    if use_splash and not os.path.exists(join(self.root, "usr/bin/grub-set-bootflag")):
         kernel_params.append(use_splash)
 
     if swap_uuid:
@@ -161,7 +161,7 @@ def modify_grub_default(partitions, root_mount_point, distributor):
                     existing_param_name = existing_param.split("=")[0]
 
                     # the only ones we ever add
-                    if not exists(join(self.root, "usr/bin/grub-set-bootflag"))
+                    if not os.path.exists(join(self.root, "usr/bin/grub-set-bootflag"))
                             and existing_param_name not in ["quiet", "resume", "splash"]:
                         kernel_params.append(existing_param)
 
