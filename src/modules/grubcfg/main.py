@@ -157,13 +157,13 @@ def modify_grub_default(partitions, root_mount_point, distributor):
                 line = line.rstrip("'")
                 existing_params = line.split()
 
-                for existing_param in existing_params:
-                    existing_param_name = existing_param.split("=")[0]
+                if not os.path.exists(os.path.join(root_mount_point, "usr/bin/grub-set-bootflag")):
+                    for existing_param in existing_params:
+                        existing_param_name = existing_param.split("=")[0]
 
-                    # the only ones we ever add
-                    if not os.path.exists(os.path.join(root_mount_point, "usr/bin/grub-set-bootflag"))
-                            and existing_param_name not in ["quiet", "resume", "splash"]:
-                        kernel_params.append(existing_param)
+                        # the only ones we ever add
+                        if existing_param_name not in ["quiet", "resume", "splash"]:
+                            kernel_params.append(existing_param)
 
                 kernel_cmd = "GRUB_CMDLINE_LINUX_DEFAULT=\"{!s}\"".format(
                     " ".join(kernel_params)
