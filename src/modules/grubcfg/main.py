@@ -3,7 +3,7 @@
 #
 # === This file is part of Calamares - <https://github.com/calamares> ===
 #
-#   Copyright 2014-2015, Philip Müller <philm@manjaro.org>
+#   Copyright 2014-2018, Philip Müller <philm@manjaro.org>
 #   Copyright 2015-2017, Teo Mrnjavac <teo@kde.org>
 #   Copyright 2017, Alf Gaida <agaida@siduction.org>
 #   Copyright 2017, Adriaan de Groot <groot@kde.org>
@@ -103,10 +103,14 @@ def modify_grub_default(partitions, root_mount_point, distributor):
 
     kernel_params = ["quiet"]
 
+    if exists(join(self.root, "usr/bin/grub-set-bootflag")):
+        kernel_params.append = ["loglevel=3", "vga=current", "rd.systemd.show_status=auto",
+                "rd.udev.log-priority=3", "vt.global_cursor_default=0"]
+
     if cryptdevice_params:
         kernel_params.extend(cryptdevice_params)
 
-    if use_splash:
+    if use_splash and not exists(join(self.root, "usr/bin/grub-set-bootflag")):
         kernel_params.append(use_splash)
 
     if swap_uuid:
@@ -157,8 +161,8 @@ def modify_grub_default(partitions, root_mount_point, distributor):
                     existing_param_name = existing_param.split("=")[0]
 
                     # the only ones we ever add
-                    if existing_param_name not in [
-                            "quiet", "resume", "splash"]:
+                    if not exists(join(self.root, "usr/bin/grub-set-bootflag"))
+                            and existing_param_name not in ["quiet", "resume", "splash"]:
                         kernel_params.append(existing_param)
 
                 kernel_cmd = "GRUB_CMDLINE_LINUX_DEFAULT=\"{!s}\"".format(
