@@ -106,7 +106,7 @@ def modify_grub_default(partitions, root_mount_point, distributor):
     if os.path.exists(os.path.join(root_mount_point, "usr/bin/grub-set-bootflag")):
         grub_params = ["loglevel=3", "vga=current", "rd.systemd.show_status=auto", 
             "rd.udev.log-priority=3", "vt.global_cursor_default=0"]
-        kernel_params.append(grub_params)
+        kernel_params.extend(grub_params)
 
     if cryptdevice_params:
         kernel_params.extend(cryptdevice_params)
