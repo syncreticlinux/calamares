@@ -164,9 +164,8 @@ lookForFstabEntries( const QString& partitionPath )
 {
     FstabEntryList fstabEntries;
     QTemporaryDir mountsDir;
-    mountsDir.setAutoRemove( false );
 
-    int exit = QProcess::execute( "mount", { partitionPath, mountsDir.path() } );
+    int exit = QProcess::execute( "mount", "-o", "ro,noload", { partitionPath, mountsDir.path() } );
     if ( !exit ) // if all is well
     {
         QFile fstabFile( mountsDir.path() + "/etc/fstab" );
