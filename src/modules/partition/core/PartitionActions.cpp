@@ -195,7 +195,15 @@ doAutopartition( PartitionCoreModule* core, Device* dev, Choices::AutoPartitionO
     }
     PartitionInfo::setFormat( rootPartition, true );
     PartitionInfo::setMountPoint( rootPartition, "/" );
-    core->createPartition( dev, rootPartition );
+    if( isEfi )
+    {
+        core->createPartition( dev, rootPartition );
+    }
+    else
+    {
+        // Set FlagBoot for some legacy BIOSes, otherwise may not boot.
+        core->createPartition( dev, rootPartition, PartitionTable::FlagBoot );
+    }
 
     if ( shouldCreateSwap )
     {
