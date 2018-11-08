@@ -201,7 +201,7 @@ doAutopartition( PartitionCoreModule* core, Device* dev, Choices::AutoPartitionO
     }
     else
     {
-        // Set FlagBoot for some legacy BIOSes, otherwise may not boot.
+        // Set FlagBoot for some legacy BIOSes, otherwise they may not boot.
         core->createPartition( dev, rootPartition, PartitionTable::FlagBoot );
     }
 
