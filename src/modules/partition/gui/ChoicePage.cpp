@@ -66,14 +66,20 @@
 
 using PartitionActions::Choices::SwapChoice;
 
+SwapChoice pickOne( const SwapChoiceSet& s )
+{
+    if ( s.count() == 1 )
+        for ( auto i = s.begin(); i != s.end(); ++i )
+            return *i;  // That's the only element
+    return SwapChoice::NoSwap;
+}
+
 /**
  * @brief ChoicePage::ChoicePage is the default constructor. Called on startup as part of
  *      the module loading code path.
- * @param compactMode if true, the drive selector will be a combo box on top, otherwise it
- *      will show up as a list view.
  * @param parent the QWidget parent.
  */
-ChoicePage::ChoicePage( QWidget* parent )
+ChoicePage::ChoicePage( const SwapChoiceSet& swapChoices, QWidget* parent )
     : QWidget( parent )
     , m_nextEnabled( false )
     , m_core( nullptr )
@@ -85,14 +91,14 @@ ChoicePage::ChoicePage( QWidget* parent )
     , m_replaceButton( nullptr )
     , m_somethingElseButton( nullptr )
     , m_eraseSwapChoices( nullptr )
-    , m_replaceSwapChoices( nullptr )
-    , m_alongsideSwapChoices( nullptr )
     , m_deviceInfoWidget( nullptr )
     , m_beforePartitionBarsView( nullptr )
     , m_beforePartitionLabelsView( nullptr )
     , m_bootloaderComboBox( nullptr )
     , m_lastSelectedDeviceIndex( -1 )
     , m_enableEncryptionWidget( true )
+    , m_availableSwapChoices( swapChoices )
+    , m_eraseSwapChoice( pickOne( swapChoices ) )
 {
     setupUi( this );
 
@@ -195,6 +201,16 @@ createCombo( std::initializer_list< SwapChoice > l )
     return box;
 }
 
+static inline QComboBox*
+createCombo( const QSet< SwapChoice >& s )
+{
+    QComboBox* box = new QComboBox;
+    for ( SwapChoice c : { SwapChoice::NoSwap, SwapChoice::SmallSwap, SwapChoice::FullSwap, SwapChoice::ReuseSwap, SwapChoice::SwapFile } )
+        if ( s.contains( c ) )
+            box->addItem( QString(), c );
+    return box;
+}
+
 /**
  * @brief ChoicePage::setupChoices creates PrettyRadioButton objects for the action
  *      choices.
@@ -250,16 +266,11 @@ ChoicePage::setupChoices()
 
     // Fill up swap options
     // .. TODO: only if enabled in the config
-    m_eraseSwapChoices = createCombo( { SwapChoice::NoSwap, SwapChoice::SmallSwap, SwapChoice::FullSwap } );
-    m_eraseButton->addOptionsComboBox( m_eraseSwapChoices );
-
-#if 0
-    m_replaceSwapChoices = createCombo( { SwapChoice::NoSwap, SwapChoice::ReuseSwap, SwapChoice::SmallSwap, SwapChoice::FullSwap } );
-    m_replaceButton->addOptionsComboBox( m_replaceSwapChoices );
-
-    m_alongsideSwapChoices = createCombo( { SwapChoice::NoSwap, SwapChoice::ReuseSwap, SwapChoice::SmallSwap, SwapChoice::FullSwap } );
-    m_alongsideButton->addOptionsComboBox( m_alongsideSwapChoices );
-#endif
+    if ( m_availableSwapChoices.count() > 1 )
+    {
+        m_eraseSwapChoices = createCombo( m_availableSwapChoices );
+        m_eraseButton->addOptionsComboBox( m_eraseSwapChoices );
+    }
 
     m_itemsLayout->addWidget( m_alongsideButton );
     m_itemsLayout->addWidget( m_replaceButton );
@@ -306,19 +317,12 @@ ChoicePage::setupChoices()
     m_rightLayout->setStretchFactor( m_previewAfterFrame, 0 );
 
     connect( this, &ChoicePage::actionChosen,
-             this, [=]
-    {
-        Device* currd = selectedDevice();
-        if ( currd )
-        {
-            applyActionChoice( currentChoice() );
-        }
-    } );
+             this, &ChoicePage::onActionChanged );
+    connect( m_eraseSwapChoices, QOverload<int>::of(&QComboBox::currentIndexChanged),
+             this, &ChoicePage::onActionChanged );
 
     CALAMARES_RETRANSLATE(
         updateSwapChoicesTr( m_eraseSwapChoices );
-        updateSwapChoicesTr( m_alongsideSwapChoices );
-        updateSwapChoicesTr( m_replaceSwapChoices );
     )
 }
 
@@ -410,6 +414,17 @@ ChoicePage::continueApplyDeviceChoice()
 
     emit actionChosen();
     emit deviceChosen();
+}
+
+
+void
+ChoicePage::onActionChanged()
+{
+    Device* currd = selectedDevice();
+    if ( currd )
+    {
+        applyActionChoice( currentChoice() );
+    }
 }
 
 
