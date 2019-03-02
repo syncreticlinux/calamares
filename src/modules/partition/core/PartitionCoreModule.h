@@ -154,9 +154,6 @@ public:
 
     void setPartitionFlags( Device* device, Partition* partition, PartitionTable::Flags flags );
 
-    /// @brief Retrieve the path where the bootloader will be installed
-    QString bootLoaderInstallPath() const { return m_bootLoaderInstallPath; }
-    /// @brief Set the path where the bootloader will be installed
     void setBootLoaderInstallPath( const QString& path );
 
     void initLayout();
