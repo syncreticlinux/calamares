@@ -4,10 +4,10 @@ componentName:  syncretic
 strings:
     productName:         Syncretic Linux
     shortProductName:    Syncretic
-    version:             18.04
-    shortVersion:        18.04
-    versionedName:       Syncretic 18.04
-    shortVersionedName:  Syncretic 18.04
+    version:             19.04
+    shortVersion:        19.04
+    versionedName:       Syncretic 19.04
+    shortVersionedName:  Syncretic 19.04
     bootloaderEntryName: Syncretic
 
 images:
